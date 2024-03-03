@@ -163,7 +163,7 @@ class SignIn extends StatelessWidget {
           const Divider(),
           const ListTile(
             title: Text(
-              'Majestic',
+              'MajesTIC',
               textAlign: TextAlign.center,
               textDirection: TextDirection.rtl,
             ),
