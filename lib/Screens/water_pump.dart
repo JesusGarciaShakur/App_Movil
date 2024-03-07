@@ -126,7 +126,7 @@ TimeOfDay _timeOfDay =const  TimeOfDay(hour: 8, minute: 30);
                                     linearValue2 += details.delta.dx / (MediaQuery.of(context).size.width - 100);
                                   setState(() {
                                     if (linearValue2 < 0) {
-                                      linearValue = 0.0;
+                                      linearValue2 = 0.0;
                                     } else if (linearValue2 > 1) {
                                       linearValue2 = 1;
                                     }
@@ -147,12 +147,8 @@ TimeOfDay _timeOfDay =const  TimeOfDay(hour: 8, minute: 30);
                           const Text("100%")
                         ],
                       ),
-                   
                     ),
 
-
-
-                    
                         const MaterialButton(
                           onPressed:null,
                           child:Text("Guardar")

@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:smca_application/home_screen.dart';
 
-void main() {
+//importacinon de firebase a flutter
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main() async {
+  await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(const MainApp());
 }
 
@@ -15,4 +22,6 @@ class MainApp extends StatelessWidget {
       home: HomePage(),
     );
   }
+
+
 }

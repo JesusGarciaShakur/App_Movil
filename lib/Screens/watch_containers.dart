@@ -1,25 +1,47 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class WatchContainers extends StatelessWidget {
+//firebase paquete
+import 'package:firebase_core/firebase_core.dart';
+
+
+
+class WatchContainers extends StatefulWidget {
   const WatchContainers({super.key});
 
   @override
+  State<WatchContainers> createState() => _WatchContainersState();
+}
+
+
+class _WatchContainersState extends State<WatchContainers> {
+
+// variable de resolucion de data base
+final Future<FirebaseApp> _fApp= Firebase.initializeApp();
+
+
+
+  String reaLTimeValue ='0';
+  String getOnceValue="0";
+
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "App",
-      theme: ThemeData(
-        primarySwatch: Colors.amber,
-      ),
-      home: Scaffold(
+  DatabaseReference _testRef =FirebaseDatabase.instance.ref("Sensor").child('Ultrasonico');
+
+
+ _testRef.onValue.listen(
+  (event){
+    setState(() {
+      reaLTimeValue = event.snapshot.value.toString();
+    });
+  }
+ );
+
+    return Scaffold(
         appBar: AppBar(
           title: const Text('Mis Contenedores'),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
+
         ),
         body: SingleChildScrollView(
           child: SizedBox(
@@ -27,15 +49,44 @@ class WatchContainers extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                buildContainerWithIndicator('Primer Contenedor', context),
-                buildContainerWithIndicator('Segundo Contenedor', context),
-                buildContainerWithIndicator('Tercer Contenedor', context),
+                  FutureBuilder(future: _fApp, builder: (context, snapshot) {
+                    if(snapshot.hasError) {
+                      return const Text("algo salio mal con firebase"); 
+                    } else if (snapshot.hasData) {
+                      return const Text("firebase esta inicializado");
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  }),
+                GestureDetector(
+                  onTap: () async{
+                    // obtener el valor una vez de firebase
+                  final snapshot = await _testRef.get();
+                  if (snapshot.exists){
+                    setState(() {
+                      getOnceValue=snapshot.value.toString();
+                    });
+                  } else {
+                    print ("no hay informacion disponible");
+                  }
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 150,
+                    decoration:  BoxDecoration(color:  Colors.blue, borderRadius: BorderRadius.circular(20)),
+                    child: const Center(child: Text("soy otro boton")),
+                  ),
+                  ),
+
+
+                
+                buildContainerWithIndicator('Segundo Contenedor getonce $getOnceValue', context),
+                buildContainerWithIndicator('Tercer Contenedor realtime $reaLTimeValue', context),
                 // Agrega más contenedores si es necesario
               ],
             ),
           ),
         ),
-      ),
     );
   }
 
