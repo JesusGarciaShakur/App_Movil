@@ -16,13 +16,13 @@ class _LoginPageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Colors.blue,
-            Colors.white,
-          ],
+          gradient: LinearGradient(
+        begin: Alignment.topRight,
+        end: Alignment.bottomLeft,
+        colors: [
+          Colors.blue,
+          Colors.white,
+        ],
       )),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -31,7 +31,7 @@ class _LoginPageState extends State<HomePage> {
     );
   }
 
-  Widget _page(){
+  Widget _page() {
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Center(
@@ -39,11 +39,11 @@ class _LoginPageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _icon(),
-            const SizedBox(height:50.0),
+            const SizedBox(height: 50.0),
             _signInButton(),
-            const SizedBox(height:30.0),
+            const SizedBox(height: 30.0),
             _createAccountButton(),
-            const SizedBox(height:30.0),
+            const SizedBox(height: 30.0),
           ],
         ),
       ),
@@ -51,84 +51,80 @@ class _LoginPageState extends State<HomePage> {
   }
 
   Widget _icon() {
-  return Container(
-    decoration: BoxDecoration (
-      border: Border.all(color:Colors.black, width: 2),
-      shape: BoxShape.circle),
-      child: const Icon( Icons.person,
-        color: Colors.black, 
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.black, width: 2),
+          shape: BoxShape.circle),
+      child: const Icon(
+        Icons.person,
+        color: Colors.black,
         size: 120.0,
       ),
     );
   }
 
 // Widgets de Usuario y contraseña
-  Future<Widget> _inputField(
-    String hintText, TextEditingController controller,
-    {isPassword = false} ) async {
-      var border = OutlineInputBorder(
+  Future<Widget> _inputField(String hintText, TextEditingController controller,
+      {isPassword = false}) async {
+    var border = OutlineInputBorder(
         borderRadius: BorderRadius.circular(18.0),
-        borderSide: const BorderSide(color: Colors.black)
-      );
-      return TextField(
-        style: const TextStyle(color: Colors.black),
-        controller: controller,
-        decoration: InputDecoration(
+        borderSide: const BorderSide(color: Colors.black));
+    return TextField(
+      style: const TextStyle(color: Colors.black),
+      controller: controller,
+      decoration: InputDecoration(
           hintText: hintText,
           hintStyle: const TextStyle(color: Colors.black),
           enabledBorder: border,
-          focusedBorder: border
-        ),
-        obscureText: isPassword,
-      );
-    }
+          focusedBorder: border),
+      obscureText: isPassword,
+    );
+  }
 
 // Botón de inicio de sesión
-    Widget _signInButton() {
-      return ElevatedButton(
-        onPressed: () {
-                final ds1 = MaterialPageRoute(builder: (context){
-                  return const LoginPage();
-                });
-                Navigator.push(context, ds1);
-              },
-        style: ElevatedButton.styleFrom(
+  Widget _signInButton() {
+    return ElevatedButton(
+      onPressed: () {
+        final ds1 = MaterialPageRoute(builder: (context) {
+          return const LoginPage();
+        });
+        Navigator.push(context, ds1);
+      },
+      style: ElevatedButton.styleFrom(
           shape: const StadiumBorder(),
           primary: Colors.white,
           onPrimary: Colors.black,
-          padding: const EdgeInsets.symmetric(vertical: 16.0)
-          ), 
-        child: const SizedBox(
+          padding: const EdgeInsets.symmetric(vertical: 16.0)),
+      child: const SizedBox(
           width: double.infinity,
           child: Text(
-            "Iniciar sesión", 
+            "Iniciar sesión",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20.0 ),
-        )),
-      );
-    }
+            style: TextStyle(fontSize: 20.0),
+          )),
+    );
+  }
 
   Widget _createAccountButton() {
-      return ElevatedButton(
-        onPressed: () {
-                final route2 = MaterialPageRoute(builder: (context){
-                  return const CreateAccount();
-                });
-                Navigator.push(context, route2);
-              },
-        style: ElevatedButton.styleFrom(
+    return ElevatedButton(
+      onPressed: () {
+        final route2 = MaterialPageRoute(builder: (context) {
+          return const CreateAccount();
+        });
+        Navigator.push(context, route2);
+      },
+      style: ElevatedButton.styleFrom(
           shape: const StadiumBorder(),
           primary: Colors.blue,
           onPrimary: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16.0)
-          ), 
-        child: const SizedBox(
+          padding: const EdgeInsets.symmetric(vertical: 16.0)),
+      child: const SizedBox(
           width: double.infinity,
           child: Text(
-            "Crear cuenta", 
+            "Crear cuenta",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20.0 ),
-      )),
+            style: TextStyle(fontSize: 20.0),
+          )),
     );
   }
 }

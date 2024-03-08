@@ -58,7 +58,7 @@ class SignIn extends StatelessWidget {
           const Divider(),
           ListTile(
             title: const Text(
-              'Progrmamar bomba',
+              'Programar bomba',
             ),
             subtitle: const Text(
               'Administar el encendido y pagado de bomba',
@@ -167,7 +167,7 @@ class SignIn extends StatelessWidget {
               textAlign: TextAlign.center,
               textDirection: TextDirection.rtl,
             ),
-          )
+          ),
         ],
       ),
     );
