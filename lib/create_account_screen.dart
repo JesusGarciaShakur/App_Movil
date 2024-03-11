@@ -13,6 +13,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:smca_application/sign_in_screen.dart';
+import 'package:smca_application/theme/app_theme.dart';
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key});
@@ -29,17 +30,9 @@ class _LoginPageState extends State<CreateAccount> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-        begin: Alignment.topRight,
-        end: Alignment.bottomLeft,
-        colors: [
-          Colors.blue,
-          Colors.white,
-        ],
-      )),
+      decoration: AppTheme.foundColor,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppTheme.bottomColor,
         body: _page(),
       ),
     );
@@ -80,7 +73,7 @@ class _LoginPageState extends State<CreateAccount> {
           shape: BoxShape.circle),
       child: const Icon(
         Icons.person,
-        color: Colors.black,
+        color: AppTheme.iconColor,
         size: 120.0,
       ),
     );
@@ -93,11 +86,11 @@ class _LoginPageState extends State<CreateAccount> {
         borderRadius: BorderRadius.circular(18.0),
         borderSide: const BorderSide(color: Colors.black));
     return TextField(
-      style: const TextStyle(color: Colors.black),
+      style: const TextStyle(color: AppTheme.textColor),
       controller: controller,
       decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: const TextStyle(color: Colors.black),
+          hintStyle: const TextStyle(color: AppTheme.textColor),
           enabledBorder: border,
           focusedBorder: border),
       obscureText: isPassword,
@@ -120,9 +113,7 @@ class _LoginPageState extends State<CreateAccount> {
         Navigator.push(context, route2);
       },
       style: ElevatedButton.styleFrom(
-          shape: const StadiumBorder(),
-          primary: Colors.blue,
-          onPrimary: Colors.white,
+          foregroundColor: Colors.white, backgroundColor: Colors.blue, shape: const StadiumBorder(),
           padding: const EdgeInsets.symmetric(vertical: 16.0)),
       child: const SizedBox(
           width: double.infinity,

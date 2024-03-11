@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smca_application/sign_in_screen.dart';
+import 'package:smca_application/theme/app_theme.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,17 +15,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-        begin: Alignment.topRight,
-        end: Alignment.bottomLeft,
-        colors: [
-          Colors.blue,
-          Colors.white,
-        ],
-      )),
+      decoration: AppTheme.foundColor,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppTheme.bottomColor,
         body: _page(),
       ),
     );
@@ -55,11 +48,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget _icon() {
     return Container(
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 2),
+          border: Border.all(color: AppTheme.iconColor, width: 2),
           shape: BoxShape.circle),
       child: const Icon(
         Icons.person,
-        color: Colors.black,
+        color: AppTheme.iconColor,
         size: 120.0,
       ),
     );
@@ -72,11 +65,11 @@ class _LoginPageState extends State<LoginPage> {
         borderRadius: BorderRadius.circular(18.0),
         borderSide: const BorderSide(color: Colors.black));
     return TextField(
-      style: const TextStyle(color: Colors.black),
+      style: const TextStyle(color: AppTheme.textColor),
       controller: controller,
       decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: const TextStyle(color: Colors.black),
+          hintStyle: const TextStyle(color: AppTheme.textColor),
           enabledBorder: border,
           focusedBorder: border),
       obscureText: isPassword,
@@ -97,9 +90,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.push(context, route2);
       },
       style: ElevatedButton.styleFrom(
-          shape: const StadiumBorder(),
-          primary: Colors.blue,
-          onPrimary: Colors.white,
+          foregroundColor: Colors.white, backgroundColor: Colors.blue, shape: const StadiumBorder(),
           padding: const EdgeInsets.symmetric(vertical: 16.0)),
       child: const SizedBox(
           width: double.infinity,
@@ -115,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
     return const Text(
       "¿Has olvidado la contraseña?",
       textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 16.0, color: Colors.black),
+      style: TextStyle(fontSize: 16.0, color: AppTheme.textColor),
     );
   }
 }

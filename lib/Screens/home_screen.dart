@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smca_application/create_account_screen.dart';
 import 'package:smca_application/login_page.dart';
+import 'package:smca_application/theme/app_theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -70,11 +71,11 @@ class _LoginPageState extends State<HomePage> {
         borderRadius: BorderRadius.circular(18.0),
         borderSide: const BorderSide(color: Colors.black));
     return TextField(
-      style: const TextStyle(color: Colors.black),
+      style: const TextStyle(color: AppTheme.iconColor),
       controller: controller,
       decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: const TextStyle(color: Colors.black),
+          hintStyle: const TextStyle(color: AppTheme.iconColor),
           enabledBorder: border,
           focusedBorder: border),
       obscureText: isPassword,
@@ -91,9 +92,7 @@ class _LoginPageState extends State<HomePage> {
         Navigator.push(context, ds1);
       },
       style: ElevatedButton.styleFrom(
-          shape: const StadiumBorder(),
-          primary: Colors.white,
-          onPrimary: Colors.black,
+          foregroundColor: Colors.black, backgroundColor: Colors.white, shape: const StadiumBorder(),
           padding: const EdgeInsets.symmetric(vertical: 16.0)),
       child: const SizedBox(
           width: double.infinity,
@@ -114,9 +113,7 @@ class _LoginPageState extends State<HomePage> {
         Navigator.push(context, route2);
       },
       style: ElevatedButton.styleFrom(
-          shape: const StadiumBorder(),
-          primary: Colors.blue,
-          onPrimary: Colors.white,
+          foregroundColor: Colors.white, backgroundColor: Colors.blue, shape: const StadiumBorder(),
           padding: const EdgeInsets.symmetric(vertical: 16.0)),
       child: const SizedBox(
           width: double.infinity,
