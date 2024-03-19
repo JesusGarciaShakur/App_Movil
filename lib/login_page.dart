@@ -18,12 +18,16 @@ class _LoginPageState extends State<LoginPage> {
       decoration: AppTheme.foundColor,
       child: Scaffold(
         backgroundColor: AppTheme.bottomColor,
-        body: _page(),
+        body: ListView(
+          children: [
+            page(),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _page() {
+  Widget page() {
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Center(

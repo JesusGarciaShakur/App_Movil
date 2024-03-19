@@ -7,24 +7,16 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _LoginPageState();
+  State<HomePage> createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<HomePage> {
+class LoginPageState extends State<HomePage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-        begin: Alignment.topRight,
-        end: Alignment.bottomLeft,
-        colors: [
-          Colors.blue,
-          Colors.white,
-        ],
-      )),
+      decoration: AppTheme.foundColor,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: _page(),
@@ -39,7 +31,7 @@ class _LoginPageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _icon(),
+            _logo(),
             const SizedBox(height: 50.0),
             _signInButton(),
             const SizedBox(height: 30.0),
@@ -50,20 +42,24 @@ class _LoginPageState extends State<HomePage> {
       ),
     );
   }
-
-  Widget _icon() {
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 2),
-          shape: BoxShape.circle),
-      child: const Icon(
-        Icons.person,
-        color: Colors.black,
-        size: 120.0,
-      ),
-    );
-  }
-
+  
+  Card _logo() {
+  return Card(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(360),
+    ),
+    margin: const EdgeInsets.all(20),
+    elevation: 10,
+    child: const Column(
+      children: [
+        CircleAvatar(
+          radius: 100, // Ajusta el radio según tus necesidades
+          backgroundImage: AssetImage('assets/img/logo.jpg'),
+        ),
+      ],
+    ),
+  );
+}
 // Widgets de Usuario y contraseña
   Future<Widget> _inputField(String hintText, TextEditingController controller,
       {isPassword = false}) async {

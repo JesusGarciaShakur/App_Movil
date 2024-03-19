@@ -23,6 +23,8 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _LoginPageState extends State<CreateAccount> {
+  final ScrollController _scrollController = ScrollController();
+  final FocusNode _focusNode = FocusNode();
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -38,12 +40,38 @@ class _LoginPageState extends State<CreateAccount> {
     );
   }
 
-  Widget _page() {
-    return Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Center(
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(_scrollToBottomOnFocusChange);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _scrollToBottomOnFocusChange() {
+    if (_focusNode.hasFocus) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+   Widget _page() {
+  return Padding(
+    padding: const EdgeInsets.all(32.0),
+    child: Center(
+      child: SingleChildScrollView(
+        controller: _scrollController,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _icon(),
             const SizedBox(height: 50.0),
@@ -53,18 +81,17 @@ class _LoginPageState extends State<CreateAccount> {
             const SizedBox(height: 30.0),
             _inputField("Contraseña", passwordController, isPassword: true),
             const SizedBox(height: 30.0),
-            _inputField(
-                "Escriba nuevamente la contraseña", reEnterPassController,
-                isPassword: true),
+            _inputField("Escriba nuevamente la contraseña", reEnterPassController, isPassword: true),
             const SizedBox(height: 30.0),
             _signInButton(),
             const SizedBox(height: 30.0),
-            // _passText(),
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+ 
 
   Widget _icon() {
     return Container(
@@ -99,29 +126,50 @@ class _LoginPageState extends State<CreateAccount> {
 
 // Botón de inicio de sesión
   Widget _signInButton() {
-    return ElevatedButton(
-      // Mostrar datos en debug console
-      onPressed: () {
-        debugPrint("Usuario: " + usernameController.text);
-        debugPrint("Email: " + emailController.text);
-        debugPrint("Contraseña: " + passwordController.text);
-        debugPrint("Contraseña: " + reEnterPassController.text);
+  return ElevatedButton(
+    onPressed: () {
+      String username = usernameController.text.trim();
+      String email = emailController.text.trim();
+      String password = passwordController.text.trim();
+      String reEnterPassword = reEnterPassController.text.trim();
 
-        final route2 = MaterialPageRoute(builder: (context) {
-          return const SignIn();
-        });
-        Navigator.push(context, route2);
-      },
-      style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white, backgroundColor: Colors.blue, shape: const StadiumBorder(),
-          padding: const EdgeInsets.symmetric(vertical: 16.0)),
+      if (username.isEmpty || email.isEmpty || password.isEmpty || reEnterPassword.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Por favor completa todos los campos.')),
+        );
+        return;
+      }
+
+      if (password != reEnterPassword) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Las contraseñas no coinciden.')),
+        );
+        return;
+      }
+
+      debugPrint("Usuario: $username");
+      debugPrint("Email: $email");
+      debugPrint("Contraseña: $password");
+
+      final route2 = MaterialPageRoute(builder: (context) {
+        return const SignIn();
+      });
+      Navigator.push(context, route2);
+    },
+       style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.blue,
+        shape: const StadiumBorder(),
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+      ),
       child: const SizedBox(
-          width: double.infinity,
-          child: Text(
-            "Iniciar sesión",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20.0),
-          )),
+        width: double.infinity,
+        child: Text(
+          "Crear cuenta",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20.0),
+        ),
+      ),
     );
   }
 
