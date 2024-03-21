@@ -7,13 +7,14 @@ environment:
   sdk: '>=3.2.6 <4.0.0'
 
 dependencies:
+  fluttertoast: ^8.2.2
   firebase_core: ^2.26.0
   firebase_auth: ^4.4.0
   firebase_database: ^10.4.8
   flutter:
     sdk: flutter
   percent_indicator: ^4.2.3
-  google_fonts:
+  google_fonts: 6.1.0
 
 dev_dependencies:
   flutter_test:

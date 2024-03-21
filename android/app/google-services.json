@@ -1,14 +1,33 @@
 {
   "project_info": {
-    "project_number": "321175735917",
-    "firebase_url": "https://iot-fire-7e935-default-rtdb.firebaseio.com",
-    "project_id": "iot-fire-7e935",
-    "storage_bucket": "iot-fire-7e935.appspot.com"
+    "project_number": "58822421527",
+    "firebase_url": "https://newiot-632c1-default-rtdb.firebaseio.com",
+    "project_id": "newiot-632c1",
+    "storage_bucket": "newiot-632c1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:321175735917:android:18f5610bd313c0403e3964",
+        "mobilesdk_app_id": "1:58822421527:android:d5d0634eae20b679554052",
+        "android_client_info": {
+          "package_name": "com.example.login_fire"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2iv032M6wun7AQ2RtpqqMNNWFGMFJAkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58822421527:android:a14c387bff2fcfef554052",
         "android_client_info": {
           "package_name": "com.example.smca_application"
         }
@@ -16,7 +35,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCWK6hyCgE2-0CKryTRuj8k6paW96Yxes8"
+          "current_key": "AIzaSyC2iv032M6wun7AQ2RtpqqMNNWFGMFJAkk"
         }
       ],
       "services": {

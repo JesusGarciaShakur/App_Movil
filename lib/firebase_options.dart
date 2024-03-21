@@ -44,41 +44,41 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC_9W1GIvU0ZDYpy4_WDD61jWcKnf7B6EQ',
-    appId: '1:321175735917:web:591866685e48ede83e3964',
-    messagingSenderId: '321175735917',
-    projectId: 'iot-fire-7e935',
-    authDomain: 'iot-fire-7e935.firebaseapp.com',
-    databaseURL: 'https://iot-fire-7e935-default-rtdb.firebaseio.com',
-    storageBucket: 'iot-fire-7e935.appspot.com',
+    apiKey: 'AIzaSyCGeO9X01brIfhPZphJ2NupsBHHqZL14ps',
+    appId: '1:58822421527:web:f071d4a1bf3020b6554052',
+    messagingSenderId: '58822421527',
+    projectId: 'newiot-632c1',
+    authDomain: 'newiot-632c1.firebaseapp.com',
+    databaseURL: 'https://newiot-632c1-default-rtdb.firebaseio.com',
+    storageBucket: 'newiot-632c1.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCWK6hyCgE2-0CKryTRuj8k6paW96Yxes8',
-    appId: '1:321175735917:android:18f5610bd313c0403e3964',
-    messagingSenderId: '321175735917',
-    projectId: 'iot-fire-7e935',
-    databaseURL: 'https://iot-fire-7e935-default-rtdb.firebaseio.com',
-    storageBucket: 'iot-fire-7e935.appspot.com',
+    apiKey: 'AIzaSyC2iv032M6wun7AQ2RtpqqMNNWFGMFJAkk',
+    appId: '1:58822421527:android:a14c387bff2fcfef554052',
+    messagingSenderId: '58822421527',
+    projectId: 'newiot-632c1',
+    databaseURL: 'https://newiot-632c1-default-rtdb.firebaseio.com',
+    storageBucket: 'newiot-632c1.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBuBtHh0Q7HEVFcU9VG0IYxtsOk8DCQYCc',
-    appId: '1:321175735917:ios:9b51b62e92ac39a53e3964',
-    messagingSenderId: '321175735917',
-    projectId: 'iot-fire-7e935',
-    databaseURL: 'https://iot-fire-7e935-default-rtdb.firebaseio.com',
-    storageBucket: 'iot-fire-7e935.appspot.com',
+    apiKey: 'AIzaSyCxqbWy3uJzbScPxXKRe1NJL_1dd1GRwE8',
+    appId: '1:58822421527:ios:0d130ced33900eb6554052',
+    messagingSenderId: '58822421527',
+    projectId: 'newiot-632c1',
+    databaseURL: 'https://newiot-632c1-default-rtdb.firebaseio.com',
+    storageBucket: 'newiot-632c1.appspot.com',
     iosBundleId: 'com.example.smcaApplication',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBuBtHh0Q7HEVFcU9VG0IYxtsOk8DCQYCc',
-    appId: '1:321175735917:ios:0944e4bb0a881ced3e3964',
-    messagingSenderId: '321175735917',
-    projectId: 'iot-fire-7e935',
-    databaseURL: 'https://iot-fire-7e935-default-rtdb.firebaseio.com',
-    storageBucket: 'iot-fire-7e935.appspot.com',
+    apiKey: 'AIzaSyCxqbWy3uJzbScPxXKRe1NJL_1dd1GRwE8',
+    appId: '1:58822421527:ios:b5144508eb186a55554052',
+    messagingSenderId: '58822421527',
+    projectId: 'newiot-632c1',
+    databaseURL: 'https://newiot-632c1-default-rtdb.firebaseio.com',
+    storageBucket: 'newiot-632c1.appspot.com',
     iosBundleId: 'com.example.smcaApplication.RunnerTests',
   );
 }

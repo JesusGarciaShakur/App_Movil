@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smca_application/Screens/home_screen.dart';
 import 'package:smca_application/Screens/notifications.dart';
 import 'package:smca_application/Screens/profile.dart';
 import 'package:smca_application/Screens/watch_containers.dart';
@@ -73,7 +72,7 @@ class _SignInState extends State<SignIn> {
     late MaterialPageRoute ruta;
     switch (index) {
       case 0:
-        ruta = MaterialPageRoute(builder: (context) => const HomePage());
+        ruta = MaterialPageRoute(builder: (context) => const SignIn());
         break;
       case 1:
         ruta = MaterialPageRoute(builder: (context) => const WatchContainers());
