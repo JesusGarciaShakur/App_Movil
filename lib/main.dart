@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smca_application/home_screen.dart';
+import 'package:smca_application/Screens/home_screen.dart';
 
 //importacinon de firebase a flutter
 import 'package:firebase_core/firebase_core.dart';
