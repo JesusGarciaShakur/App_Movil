@@ -120,9 +120,9 @@ class _LoginPageState extends State<CreateAccount> {
         Navigator.push(context, route2);
       },
       style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white,
           shape: const StadiumBorder(),
-          primary: Colors.blue,
-          onPrimary: Colors.white,
+          backgroundColor: Colors.blue,
           padding: const EdgeInsets.symmetric(vertical: 16.0)),
       child: const SizedBox(
           width: double.infinity,

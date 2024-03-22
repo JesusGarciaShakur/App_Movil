@@ -97,9 +97,9 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.push(context, route2);
       },
       style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.blue,
           shape: const StadiumBorder(),
-          primary: Colors.blue,
-          onPrimary: Colors.white,
           padding: const EdgeInsets.symmetric(vertical: 16.0)),
       child: const SizedBox(
           width: double.infinity,
