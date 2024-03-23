@@ -1,7 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-
-//firebase paquete
 import 'package:firebase_core/firebase_core.dart';
 
 class WatchContainers extends StatefulWidget {
@@ -12,7 +10,7 @@ class WatchContainers extends StatefulWidget {
 }
 
 class _WatchContainersState extends State<WatchContainers> {
-// variable de resolucion de data base
+  // variable de resolucion de data base
   final Future<FirebaseApp> _fApp = Firebase.initializeApp();
 
   String reaLTimeValue = '0';
@@ -20,8 +18,15 @@ class _WatchContainersState extends State<WatchContainers> {
 
   @override
   Widget build(BuildContext context) {
-    DatabaseReference _testRef =
-        FirebaseDatabase.instance.ref("sensor").child('ultrasonico');
+    DatabaseReference _testRef = FirebaseDatabase.instance
+        .reference()
+        .child(
+            "usuarios") // Cambia "sensor" al nodo que contiene los datos de ultrasonico
+        .child(
+            'PJXMhNNDgFawm1WxVVidkPf4H5R2') // Cambia por el UID del usuario correspondiente
+        .child('datos')
+        .child(
+            'ultrasonico'); // Cambia "ultrasonico" al nodo que contiene los datos de tu sensor ultrasonico
 
     _testRef.onValue.listen((event) {
       setState(() {
@@ -43,9 +48,9 @@ class _WatchContainersState extends State<WatchContainers> {
                   future: _fApp,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
-                      return const Text("algo salio mal con firebase");
+                      return const Text("Algo salió mal con Firebase");
                     } else if (snapshot.hasData) {
-                      return const Text("firebase esta inicializado");
+                      return const Text("Firebase está inicializado");
                     } else {
                       return const CircularProgressIndicator();
                     }
@@ -59,7 +64,7 @@ class _WatchContainersState extends State<WatchContainers> {
                       getOnceValue = snapshot.value.toString();
                     });
                   } else {
-                    print("no hay informacion disponible");
+                    print("No hay información disponible");
                   }
                 },
                 child: Container(
@@ -68,7 +73,7 @@ class _WatchContainersState extends State<WatchContainers> {
                   decoration: BoxDecoration(
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(20)),
-                  child: const Center(child: Text("soy otro boton")),
+                  child: const Center(child: Text("Soy otro botón")),
                 ),
               ),
 

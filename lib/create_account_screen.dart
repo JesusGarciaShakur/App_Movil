@@ -1,16 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// class CreateAccount extends StatelessWidget {
-//   const CreateAccount({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Center(
-//       child: Text('Crear nueva cuenta'),
-//     );
-//   }
-// }
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smca_application/global/common/toast.dart';
@@ -169,7 +156,8 @@ class _LoginPageState extends State<CreateAccount> {
 
 // funcion de inicio de sesión
   void _signUp() async {
-    String username = _emailController.text;
+    String username = _usernameController
+        .text; // Aquí deberías usar _usernameController en lugar de _emailController
     String email = _emailController.text;
     String password = _passwordController.text;
     String reEnterPassword = _reEnterPassController.text;
@@ -190,7 +178,14 @@ class _LoginPageState extends State<CreateAccount> {
       );
       return;
     }
-    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+
+    // Corregir llamada a la función signUpWithEmailAndPassword
+    User? user = await _auth.signUpWithEmailAndPassword(
+      email,
+      password,
+      username,
+      // Agrega el nombre como tercer argumento
+    );
 
     if (user != null) {
       showToast(message: "el Usuario se creo");
@@ -199,15 +194,4 @@ class _LoginPageState extends State<CreateAccount> {
       Navigator.push(context, ruta1);
     }
   }
-
-  // Widget _passText() {
-  //   return const Text(
-  //     "¿Has olvidado la contraseña?",
-  //     textAlign: TextAlign.center,
-  //     style: TextStyle(
-  //       fontSize: 16.0,
-  //       color: Colors.black
-  //       ),
-  //     );
-  // }
 }
