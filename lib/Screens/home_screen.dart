@@ -62,7 +62,7 @@ class LoginPageState extends State<HomePage> {
   );
 }
 // Widgets de Usuario y contraseña
-  Future<Widget> _inputField(String hintText, TextEditingController controller,
+  Future<Widget> inputField(String hintText, TextEditingController controller,
       {isPassword = false}) async {
     var border = OutlineInputBorder(
         borderRadius: BorderRadius.circular(18.0),
