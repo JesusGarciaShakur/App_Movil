@@ -14,11 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
-
-final FirebaseAuthService _auth = FirebaseAuthService();
-
-
+  final FirebaseAuthService _auth = FirebaseAuthService();
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -50,31 +46,30 @@ final FirebaseAuthService _auth = FirebaseAuthService();
             const SizedBox(height: 30.0),
             _inputField("Contraseña", _passwordController, isPassword: true),
             const SizedBox(height: 50.0),
-
-            ElevatedButton(onPressed: _signIn,
+            ElevatedButton(
+              onPressed: _signIn,
               style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white, backgroundColor: Colors.blue, shape: const StadiumBorder(),
-          padding: const EdgeInsets.symmetric(vertical: 16.0)),
-      child: const SizedBox(
-          width: double.infinity,
-          child: Text(
-            "Iniciar sesión",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20.0),
-          )), 
-          ),
-
-
-
-
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.blue,
+                  shape: const StadiumBorder(),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0)),
+              child: const SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    "Iniciar sesión",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20.0),
+                  )),
+            ),
             const SizedBox(height: 30.0),
             _passText(),
-            ElevatedButton(onPressed:(){
-              final ruta2= MaterialPageRoute(
-                  builder: (context)=> const CreateAccount());
+            ElevatedButton(
+                onPressed: () {
+                  final ruta2 = MaterialPageRoute(
+                      builder: (context) => const CreateAccount());
                   Navigator.push(context, ruta2);
-            }
-             , child: Text("crear una cuenta"))
+                },
+                child: Text("crear una cuenta"))
           ],
         ),
       ),
@@ -112,8 +107,6 @@ final FirebaseAuthService _auth = FirebaseAuthService();
     );
   }
 
-  
-
   Widget _passText() {
     return const Text(
       "¿Has olvidado la contraseña?",
@@ -122,29 +115,22 @@ final FirebaseAuthService _auth = FirebaseAuthService();
     );
   }
 
+  void _signIn() async {
+    String email = _emailController.text;
+    String password = _passwordController.text;
 
-  void _signIn() async{
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor completa todos los campos.')),
+      );
+      return;
+    }
+    User? user = await _auth.signInWithEmailAndPassword(email, password);
 
-  String email =_emailController.text;
-  String password = _passwordController.text;
-
-
- if ( email.isEmpty || password.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Por favor completa todos los campos.')),
-        );
-        return;
-      }
-  User? user= await _auth.signInWithEmailAndPassword(email, password);
-
-
-  if (user != null ){
-    showToast(message: "el usaurio a ingresado");
-     final ruta1= MaterialPageRoute(
-                  builder: (context)=> const SignIn());
-                  Navigator.push(context, ruta1);
-
-
+    if (user != null) {
+      showToast(message: "el usaurio a ingresado");
+      final ruta1 = MaterialPageRoute(builder: (context) => const SignIn());
+      Navigator.push(context, ruta1);
+    }
   }
- }
 }

@@ -8,7 +8,6 @@ class HomePage extends StatefulWidget {
 
   @override
   State<HomePage> createState() => LoginPageState();
-
 }
 
 class LoginPageState extends State<HomePage> {
@@ -43,24 +42,25 @@ class LoginPageState extends State<HomePage> {
       ),
     );
   }
-  
+
   Card _logo() {
-  return Card(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(360),
-    ),
-    margin: const EdgeInsets.all(20),
-    elevation: 10,
-    child: const Column(
-      children: [
-        CircleAvatar(
-          radius: 100, // Ajusta el radio según tus necesidades
-          backgroundImage: AssetImage('assets/img/logo.jpg'),
-        ),
-      ],
-    ),
-  );
-}
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(360),
+      ),
+      margin: const EdgeInsets.all(20),
+      elevation: 10,
+      child: const Column(
+        children: [
+          CircleAvatar(
+            radius: 100, // Ajusta el radio según tus necesidades
+            backgroundImage: AssetImage('assets/img/logo.jpg'),
+          ),
+        ],
+      ),
+    );
+  }
+
 // Widgets de Usuario y contraseña
   Future<Widget> inputField(String hintText, TextEditingController controller,
       {isPassword = false}) async {
@@ -89,7 +89,9 @@ class LoginPageState extends State<HomePage> {
         Navigator.push(context, ds1);
       },
       style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black, backgroundColor: Colors.white, shape: const StadiumBorder(),
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
+          shape: const StadiumBorder(),
           padding: const EdgeInsets.symmetric(vertical: 16.0)),
       child: const SizedBox(
           width: double.infinity,
@@ -110,7 +112,9 @@ class LoginPageState extends State<HomePage> {
         Navigator.push(context, route2);
       },
       style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white, backgroundColor: Colors.blue, shape: const StadiumBorder(),
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.blue,
+          shape: const StadiumBorder(),
           padding: const EdgeInsets.symmetric(vertical: 16.0)),
       child: const SizedBox(
           width: double.infinity,

@@ -1,16 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// class CreateAccount extends StatelessWidget {
-//   const CreateAccount({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Center(
-//       child: Text('Crear nueva cuenta'),
-//     );
-//   }
-// }
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smca_application/global/common/toast.dart';
@@ -27,10 +14,8 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _LoginPageState extends State<CreateAccount> {
-
 // controlador de autentificacion
-final FirebaseAuthService _auth = FirebaseAuthService();
-
+  final FirebaseAuthService _auth = FirebaseAuthService();
 
   final ScrollController _scrollController = ScrollController();
   final FocusNode _focusNode = FocusNode();
@@ -39,7 +24,7 @@ final FirebaseAuthService _auth = FirebaseAuthService();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _reEnterPassController = TextEditingController();
 
-@override
+  @override
   void dispose() {
     _usernameController.dispose();
     _emailController.dispose();
@@ -47,15 +32,9 @@ final FirebaseAuthService _auth = FirebaseAuthService();
     _reEnterPassController.dispose();
     super.dispose();
 
-
-   _scrollController.dispose();
+    _scrollController.dispose();
     _focusNode.dispose();
-
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,14 +47,11 @@ final FirebaseAuthService _auth = FirebaseAuthService();
     );
   }
 
-
   @override
   void initState() {
     super.initState();
     _focusNode.addListener(_scrollToBottomOnFocusChange);
   }
-
- 
 
   void _scrollToBottomOnFocusChange() {
     if (_focusNode.hasFocus) {
@@ -87,72 +63,65 @@ final FirebaseAuthService _auth = FirebaseAuthService();
     }
   }
 
-   Widget _page() {
-  return Padding(
-    padding: const EdgeInsets.all(32.0),
-    child: Center(
-      child: SingleChildScrollView(
-        controller: _scrollController,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _icon(),
-            const SizedBox(height: 50.0),
-            _inputField("Usuario", _usernameController),
-            const SizedBox(height: 30.0),
-            _inputField("Email", _emailController),
-            const SizedBox(height: 30.0),
-            _inputField("Contraseña", _passwordController, isPassword: true),
-            const SizedBox(height: 30.0),
-            _inputField("Escriba nuevamente la contraseña", _reEnterPassController, isPassword: true),
-            const SizedBox(height: 30.0),
-
-            ElevatedButton(onPressed: (){
-              _signUp();
-            }, 
-            style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.blue,
-        shape: const StadiumBorder(),
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-      ),
-        child: const SizedBox(
-        width: double.infinity,
-        child: Text(
-          "Crear cuenta",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20.0),
-        ),
-      ),
-    ),
-
-            ElevatedButton(onPressed: (){
-                final ruta2= MaterialPageRoute(
-                  builder: (context)=> const LoginPage());
+  Widget _page() {
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: Center(
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _icon(),
+              const SizedBox(height: 50.0),
+              _inputField("Usuario", _usernameController),
+              const SizedBox(height: 30.0),
+              _inputField("Email", _emailController),
+              const SizedBox(height: 30.0),
+              _inputField("Contraseña", _passwordController, isPassword: true),
+              const SizedBox(height: 30.0),
+              _inputField(
+                  "Escriba nuevamente la contraseña", _reEnterPassController,
+                  isPassword: true),
+              const SizedBox(height: 30.0),
+              ElevatedButton(
+                onPressed: () {
+                  _signUp();
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.blue,
+                  shape: const StadiumBorder(),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                ),
+                child: const SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    "Crear cuenta",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  final ruta2 = MaterialPageRoute(
+                      builder: (context) => const LoginPage());
                   Navigator.push(context, ruta2);
-            }, 
-          
-      
-        child:  const Text(
-          "ya tengo una cuenta",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20.0),
-
-    
-    ),
-    ),
-
-          
-            const SizedBox(height: 30.0),
-
-
-          ],
+                },
+                child: const Text(
+                  "ya tengo una cuenta",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+              const SizedBox(height: 30.0),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
- 
+    );
+  }
 
   Widget _icon() {
     return Container(
@@ -185,54 +154,44 @@ final FirebaseAuthService _auth = FirebaseAuthService();
     );
   }
 
-
-
 // funcion de inicio de sesión
-void _signUp() async {
+  void _signUp() async {
+    String username = _usernameController
+        .text; // Aquí deberías usar _usernameController en lugar de _emailController
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    String reEnterPassword = _reEnterPassController.text;
 
-    String username = _emailController.text;
-      String email = _emailController.text;
-      String password = _passwordController.text;
-      String reEnterPassword = _reEnterPassController.text;
+    if (username.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        reEnterPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor completa todos los campos.')),
+      );
+      return;
+    }
 
- if (username.isEmpty || email.isEmpty || password.isEmpty || reEnterPassword.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Por favor completa todos los campos.')),
-        );
-        return;
-      }
-      
-      if (password != reEnterPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Las contraseñas no coinciden.')),
-        );
-        return;
-      }
-    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+    if (password != reEnterPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Las contraseñas no coinciden.')),
+      );
+      return;
+    }
 
-    if (user != null){
-   showToast(message: "el Usuario se creo");
+    // Corregir llamada a la función signUpWithEmailAndPassword
+    User? user = await _auth.signUpWithEmailAndPassword(
+      email,
+      password,
+      username,
+      // Agrega el nombre como tercer argumento
+    );
 
-    final ruta1 = MaterialPageRoute(
-    builder: (context)=> const SignIn() );
-    Navigator.push(context, ruta1);
-} 
-}
+    if (user != null) {
+      showToast(message: "el Usuario se creo");
 
-
-
-
-
-  
-
-  // Widget _passText() {
-  //   return const Text(
-  //     "¿Has olvidado la contraseña?",
-  //     textAlign: TextAlign.center,
-  //     style: TextStyle(
-  //       fontSize: 16.0,
-  //       color: Colors.black
-  //       ),
-  //     );
-  // }
+      final ruta1 = MaterialPageRoute(builder: (context) => const SignIn());
+      Navigator.push(context, ruta1);
+    }
+  }
 }
