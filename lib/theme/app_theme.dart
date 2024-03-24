@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 class AppTheme {
   static const textColor =  Color.fromARGB(255, 0, 0, 0);
-  static const iconColor =  Color.fromARGB(255, 0, 0, 0);
+  static const iconColor =  Color.fromARGB(255, 255, 255, 255);
   static const color = Color.fromARGB(199, 152, 179, 238);
   static const bottomColor =  Color.fromARGB(54, 73, 72, 72);
+  static const containerColor = Color.fromARGB(134, 29, 28, 28);
   static const foundColor = BoxDecoration(
           gradient: LinearGradient(
         begin: Alignment.topRight,
         end: Alignment.bottomLeft,
         colors: [
           Colors.white,
-          Color.fromARGB(255, 139, 190, 233),
+          Color.fromARGB(255, 128, 188, 238),
         ],
     ),
   );

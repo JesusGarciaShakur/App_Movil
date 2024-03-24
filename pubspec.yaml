@@ -26,3 +26,9 @@ flutter:
   assets:
     - assets/img/logo.jpg
     - assets/img/rotoplas.png
+    - assets/img/Tin750.png
+    - assets/img/Tin1100.png
+    - assets/img/Tin1500.png
+    - assets/img/Tin2800.png
+    - assets/img/Tin5000.png
+    - assets/img/Tin10000.png
