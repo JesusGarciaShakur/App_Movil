@@ -10,6 +10,3 @@ class Notifications extends StatelessWidget {
     );
   }
 }
-
-
-

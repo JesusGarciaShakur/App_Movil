@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:smca_application/Screens/container.dart';
 import 'package:smca_application/Screens/notifications.dart';
 import 'package:smca_application/Screens/profile.dart';
 import 'package:smca_application/theme/app_theme.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+  final ContainerDetails? selectedContainer;
+
+  const SignIn({Key? key, this.selectedContainer}) : super(key: key);
 
   @override
   SignInState createState() => SignInState();
@@ -12,9 +15,25 @@ class SignIn extends StatefulWidget {
 
 class SignInState extends State<SignIn> {
   int selectedIndex = 0;
+  ContainerDetails? _selectedContainer;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedContainer = widget.selectedContainer;
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_selectedContainer != null) {
+      return ContainerDetails(
+        imagePath: _selectedContainer!.imagePath,
+        title1: _selectedContainer!.title1,
+        title2: _selectedContainer!.title2,
+        height: _selectedContainer!.height,
+      );
+    }
+
     return Container(
       decoration: AppTheme.foundColor,
       child: Scaffold(
@@ -87,20 +106,92 @@ class SignInState extends State<SignIn> {
             children: [
               TableRow(
                 children: [
-                  imageContainer('assets/img/Tin750.png', 'Tinaco', '750 litros'),
-                  imageContainer('assets/img/Tin1100.png', 'Tinaco', '1100 litros'),
+                  GestureDetector(
+                    onTap: () {
+                      navigateToContainerDetails(
+                        context,
+                        'assets/img/Tin750.png',
+                        'Tinaco',
+                        '750 litros',
+                        102,
+                      );
+                    },
+                    child: imageContainer(
+                        'assets/img/Tin750.png', 'Tinaco', '750 litros'),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      navigateToContainerDetails(
+                        context,
+                        'assets/img/Tin1100.png',
+                        'Tinaco',
+                        '1100 litros',
+                        140,
+                      );
+                    },
+                    child: imageContainer(
+                        'assets/img/Tin1100.png', 'Tinaco', '1100 litros'),
+                  ),
                 ],
               ),
               TableRow(
                 children: [
-                  imageContainer('assets/img/Tin1500.png', 'Tinaco', '1500 litros'),
-                  imageContainer('assets/img/Tin2800.png', 'Tinaco', '2800 litros'),
+                  GestureDetector(
+                    onTap: () {
+                      navigateToContainerDetails(
+                        context,
+                        'assets/img/Tin1500.png',
+                        'Tinaco',
+                        '1500 litros',
+                        150,
+                      );
+                    },
+                    child: imageContainer(
+                        'assets/img/Tin1500.png', 'Tinaco', '1500 litros'),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      navigateToContainerDetails(
+                        context,
+                        'assets/img/Tin2800.png',
+                        'Tinaco',
+                        '2800 litros',
+                        118,
+                      );
+                    },
+                    child: imageContainer(
+                        'assets/img/Tin2800.png', 'Tinaco', '2800 litros'),
+                  ),
                 ],
               ),
               TableRow(
                 children: [
-                  imageContainer('assets/img/Tin5000.png', 'Tinaco', '5000 litros'),
-                  imageContainer('assets/img/Tin10000.png', 'Tinaco', '10000 litros'),
+                  GestureDetector(
+                    onTap: () {
+                      navigateToContainerDetails(
+                        context,
+                        'assets/img/Tin5000.png',
+                        'Tinaco',
+                        '5000 litros',
+                        177,
+                      );
+                    },
+                    child: imageContainer(
+                        'assets/img/Tin5000.png', 'Tinaco', '5000 litros'),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      navigateToContainerDetails(
+                        context,
+                        'assets/img/Tin10000.png',
+                        'Tinaco',
+                        '10000 litros',
+                        310,
+                      );
+                    },
+                    child: imageContainer(
+                        'assets/img/Tin10000.png', 'Tinaco', '10000 litros'),
+                  ),
                 ],
               ),
             ],
@@ -170,5 +261,20 @@ class SignInState extends State<SignIn> {
       selectedIndex = index;
     });
     Navigator.push(context, ruta);
+  }
+
+  void navigateToContainerDetails(BuildContext context, String imagePath,
+      String title1, String title2, double height) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ContainerDetails(
+          imagePath: imagePath,
+          title1: title1,
+          title2: title2,
+          height: height,
+        ),
+      ),
+    );
   }
 }

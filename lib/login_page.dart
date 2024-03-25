@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smca_application/Screens/container.dart';
+import 'package:smca_application/Screens/notifications.dart';
+import 'package:smca_application/Screens/profile.dart';
 import 'package:smca_application/global/common/toast.dart';
 import 'package:smca_application/sign_in_screen.dart';
 import 'package:smca_application/theme/app_theme.dart';
@@ -13,6 +16,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  int selectedIndex = 0;
   final FirebaseAuthService _auth = FirebaseAuthService();
 
   TextEditingController emailController = TextEditingController();
@@ -70,6 +74,25 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  // En LoginPage
+  void openScreen(BuildContext context, int index) {
+    late MaterialPageRoute ruta;
+    switch (index) {
+      case 1:
+        ruta = MaterialPageRoute(builder: (context) => const Notifications());
+        break;
+      case 2:
+        ruta = MaterialPageRoute(builder: (context) => const Profile());
+        break;
+    }
+    setState(() {
+      selectedIndex = index;
+    });
+    if (index != 0) {
+      Navigator.push(context, ruta);
+    }
   }
 
   Widget _icon() {
@@ -130,5 +153,20 @@ class _LoginPageState extends State<LoginPage> {
       final route = MaterialPageRoute(builder: (context) => const SignIn());
       Navigator.push(context, route);
     }
+  }
+
+  void navigateToContainerDetails(BuildContext context, String imagePath,
+      String title1, String title2, double height) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ContainerDetails(
+          imagePath: imagePath,
+          title1: title1,
+          title2: title2,
+          height: height,
+        ),
+      ),
+    );
   }
 }

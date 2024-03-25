@@ -20,13 +20,11 @@ class _WatchContainersState extends State<WatchContainers> {
   Widget build(BuildContext context) {
     DatabaseReference _testRef = FirebaseDatabase.instance
         .reference()
-        .child(
-            "usuarios") // Cambia "sensor" al nodo que contiene los datos de ultrasonico
+        .child("usuarios")
         .child(
             'PJXMhNNDgFawm1WxVVidkPf4H5R2') // Cambia por el UID del usuario correspondiente
         .child('datos')
-        .child(
-            'ultrasonico'); // Cambia "ultrasonico" al nodo que contiene los datos de tu sensor ultrasonico
+        .child('ultrasonico');
 
     _testRef.onValue.listen((event) {
       setState(() {
