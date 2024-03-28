@@ -37,12 +37,12 @@ DatabaseReference relay2=
   FirebaseDatabase.instance
     .ref("usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/relay");
 
-
+//variable para guardar consulta del ultra
 String altu="";
-
-  String realTimeValue = '0';
+double distaan=0;
+double porcent=0;
 // variable para controlar el controlador dela barra
-  double linearValue = 0.2;
+  double linearValue = 0.0;
   double linearValue2 = 0.8;
   // crear variable para  traer el tiempo
   
@@ -74,6 +74,7 @@ double convertir([String valor ='0']) {
   double convertidor =double.parse(valor);
 return convertidor;
   } catch (e){
+    print("no se pudo comvertir error : $e");
 return 0.0;
   }
 }
@@ -85,23 +86,21 @@ relay2.onValue.listen((event) {
   });
 });
 
-  double distaan= convertir(altu);
+   distaan= convertir(altu);
   
 
  double altura =0;
-//consulta del ultra
  altura=widget.height;
 
-
 double calcularPor(double altura, double medida){
-  double alto=altura;
+double alto=altura;
 
-  double resultado=(medida*100)/alto;
+double resultado=(medida*100)/alto;
 
   return resultado;
 }
 
-double porcent=calcularPor(altura, distaan);
+porcent=calcularPor(altura, distaan);
 double circular=porcent/100;
   if(circular>1){
     circular=1;
@@ -113,7 +112,6 @@ double circular=porcent/100;
 
     if(porcent>(linearValue2*100)){
        relay.update({"relay": 0});
-
       }
 
     return Container(
@@ -311,7 +309,14 @@ double circular=porcent/100;
     late MaterialPageRoute ruta;
     switch (index) {
       case 0:
-        ruta = MaterialPageRoute(builder: (context) =>  Container());
+        ruta = MaterialPageRoute(builder: (context) =>  ContainerDetails(
+         imagePath: widget.imagePath,
+         title1: widget.title1, 
+         title2: widget.title2,
+         height: widget.height,
+         id: widget.id,
+         
+        ));
         break;
       case 1:
         ruta = MaterialPageRoute(builder: (context) => const Notifications());
@@ -362,7 +367,7 @@ String estado(String dato){
 if(dato=="1"){
   return'Activado';
 }else{
-  return 'desactivado';
+  return 'Desactivado';
 }
 }
 
@@ -378,7 +383,8 @@ Column statepomp(){
         children: [MaterialButton(
 
           onPressed:() async {
-            Future.delayed(const Duration(seconds: 1)); 
+            
+            Future.delayed(const Duration(seconds: 2)); 
             relay.update({"relay": 1});
          
           },
