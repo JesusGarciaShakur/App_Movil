@@ -52,7 +52,8 @@ class _WatchContainersState extends State<WatchContainers> {
                     } else {
                       return const CircularProgressIndicator();
                     }
-                  }),
+                  }
+                  ),
               GestureDetector(
                 onTap: () async {
                   // obtener el valor una vez de firebase

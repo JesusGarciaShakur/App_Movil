@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:smca_application/Screens/container.dart';
 import 'package:smca_application/Screens/notifications.dart';
@@ -7,6 +8,10 @@ import 'package:smca_application/theme/app_theme.dart';
 class SignIn extends StatefulWidget {
   final ContainerDetails? selectedContainer;
 
+
+
+
+
   const SignIn({Key? key, this.selectedContainer}) : super(key: key);
 
   @override
@@ -14,6 +19,14 @@ class SignIn extends StatefulWidget {
 }
 
 class SignInState extends State<SignIn> {
+
+
+
+
+
+int checkContianer=0;
+
+
   int selectedIndex = 0;
   ContainerDetails? _selectedContainer;
 
@@ -31,6 +44,7 @@ class SignInState extends State<SignIn> {
         title1: _selectedContainer!.title1,
         title2: _selectedContainer!.title2,
         height: _selectedContainer!.height,
+        id: _selectedContainer!.id,
       );
     }
 
@@ -40,9 +54,11 @@ class SignInState extends State<SignIn> {
         backgroundColor: Colors.transparent,
         body: ListView(
           children: [
+            
             imageCard(),
           ],
         ),
+        
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: selectedIndex,
           onTap: (index) => openScreen(context, index),
@@ -86,6 +102,7 @@ class SignInState extends State<SignIn> {
     );
   }
 
+
   Widget imageCard() {
     return Container(
       margin: const EdgeInsets.all(20),
@@ -104,6 +121,7 @@ class SignInState extends State<SignIn> {
           const SizedBox(height: 20.0),
           Table(
             children: [
+
               TableRow(
                 children: [
                   GestureDetector(
@@ -112,12 +130,13 @@ class SignInState extends State<SignIn> {
                         context,
                         'assets/img/Tin750.png',
                         'Tinaco',
-                        '750 litros',
+                        750,
                         102,
+                        1
                       );
                     },
                     child: imageContainer(
-                        'assets/img/Tin750.png', 'Tinaco', '750 litros'),
+                        'assets/img/Tin750.png', 'Tinaco', 750),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -125,12 +144,13 @@ class SignInState extends State<SignIn> {
                         context,
                         'assets/img/Tin1100.png',
                         'Tinaco',
-                        '1100 litros',
+                        1100,
                         140,
+                        2
                       );
                     },
                     child: imageContainer(
-                        'assets/img/Tin1100.png', 'Tinaco', '1100 litros'),
+                        'assets/img/Tin1100.png', 'Tinaco', 1100),
                   ),
                 ],
               ),
@@ -142,12 +162,13 @@ class SignInState extends State<SignIn> {
                         context,
                         'assets/img/Tin1500.png',
                         'Tinaco',
-                        '1500 litros',
+                        1500,
                         150,
+                        3
                       );
                     },
                     child: imageContainer(
-                        'assets/img/Tin1500.png', 'Tinaco', '1500 litros'),
+                        'assets/img/Tin1500.png', 'Tinaco', 1500),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -155,12 +176,13 @@ class SignInState extends State<SignIn> {
                         context,
                         'assets/img/Tin2800.png',
                         'Tinaco',
-                        '2800 litros',
+                        2800,
                         118,
+                        4
                       );
                     },
                     child: imageContainer(
-                        'assets/img/Tin2800.png', 'Tinaco', '2800 litros'),
+                        'assets/img/Tin2800.png', 'Tinaco', 2800),
                   ),
                 ],
               ),
@@ -172,25 +194,28 @@ class SignInState extends State<SignIn> {
                         context,
                         'assets/img/Tin5000.png',
                         'Tinaco',
-                        '5000 litros',
+                        5000,
                         177,
+                        5
                       );
                     },
                     child: imageContainer(
-                        'assets/img/Tin5000.png', 'Tinaco', '5000 litros'),
+                        'assets/img/Tin5000.png', 'Tinaco', 5000),
                   ),
                   GestureDetector(
                     onTap: () {
                       navigateToContainerDetails(
+                        
                         context,
                         'assets/img/Tin10000.png',
                         'Tinaco',
-                        '10000 litros',
+                        10000,
                         310,
+                        6,
                       );
                     },
                     child: imageContainer(
-                        'assets/img/Tin10000.png', 'Tinaco', '10000 litros'),
+                        'assets/img/Tin10000.png', 'Tinaco', 10000),
                   ),
                 ],
               ),
@@ -201,7 +226,8 @@ class SignInState extends State<SignIn> {
     );
   }
 
-  Widget imageContainer(String imagePath, String title1, String title2) {
+
+  Widget imageContainer(String imagePath, String title1, double title2) {
     return SizedBox(
       width: 150,
       height: 200,
@@ -231,12 +257,7 @@ class SignInState extends State<SignIn> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                title2,
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
+              Text("${title2.toStringAsFixed(0)} litros" )
             ],
           ),
         ),
@@ -262,19 +283,27 @@ class SignInState extends State<SignIn> {
     });
     Navigator.push(context, ruta);
   }
+DatabaseReference typeContainer = FirebaseDatabase.instance.ref("usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor");
 
+  
   void navigateToContainerDetails(BuildContext context, String imagePath,
-      String title1, String title2, double height) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
+      String title1, double title2, double height, int id) async {
+    Navigator.push(context, MaterialPageRoute(
         builder: (context) => ContainerDetails(
           imagePath: imagePath,
           title1: title1,
           title2: title2,
           height: height,
+          id:id
         ),
       ),
     );
+   await typeContainer.set({
+  'id':id,
+  'altura':height,
+  'cantidad':title2
+  });
+
+
   }
 }

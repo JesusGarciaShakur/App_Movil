@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smca_application/Screens/home_screen.dart';
+import 'package:smca_application/sign_in_screen.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -25,8 +26,17 @@ class Profile extends StatelessWidget {
         
    ,
         
-        child: const Text("Cerrar sesion"))
-
+        child: const Text("Cerrar sesion")
+        ),
+         ElevatedButton(
+            onPressed: () {
+              final ruta1= MaterialPageRoute(builder:(context){
+                  return const SignIn();
+                });
+                Navigator.push(context, ruta1);
+            },
+            child: Text('cambiar de contenedor'),
+         )
       ],
       ),
     );

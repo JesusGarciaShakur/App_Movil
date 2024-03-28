@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:smca_application/Screens/container.dart';
 import 'package:smca_application/Screens/notifications.dart';
 import 'package:smca_application/Screens/profile.dart';
 import 'package:smca_application/global/common/toast.dart';
@@ -155,18 +154,4 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void navigateToContainerDetails(BuildContext context, String imagePath,
-      String title1, String title2, double height) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ContainerDetails(
-          imagePath: imagePath,
-          title1: title1,
-          title2: title2,
-          height: height,
-        ),
-      ),
-    );
-  }
 }
