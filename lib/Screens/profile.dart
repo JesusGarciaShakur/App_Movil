@@ -17,15 +17,10 @@ class Profile extends StatelessWidget {
         const Text("informacion del perfil"),
 
         ElevatedButton(onPressed: ()async{
-          await FirebaseAuth.instance.signOut();
           final ruta1=MaterialPageRoute(
             builder: (context)=> const HomePage());
             Navigator.push(context, ruta1);
-
-        }
-        
-   ,
-        
+        },
         child: const Text("Cerrar sesion")
         ),
          ElevatedButton(
