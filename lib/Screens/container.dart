@@ -1,4 +1,5 @@
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -30,6 +31,11 @@ class ContainerDetails extends StatefulWidget {
 }
 
 class _ContainerDetailsState extends State<ContainerDetails> {
+
+
+  final Future<FirebaseApp> _fApp = Firebase.initializeApp();
+
+
 DatabaseReference relay= 
   FirebaseDatabase.instance
     .ref("usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/");
@@ -59,8 +65,11 @@ DatabaseReference typeContainer =
 
   @override
   Widget build(BuildContext context) {
+if (_fApp !=null) {
+  if (_fApp is Future<FirebaseApp>) {
 
-// consulta de la distancia
+
+  // consulta de la distancia
 typeContainer.onValue.listen((event)async{
 await Future.delayed(const Duration(seconds: 6)); 
    setState(() {
@@ -68,13 +77,23 @@ await Future.delayed(const Duration(seconds: 6));
     altu= event.snapshot.value.toString().trim();
   });
 });
+  
+    
+  }else {
+    print("hubo error");
+  }
+}else{
+print("cargando lo demas");
+}
+
+ 
+
 //get datos para mostrar en relacion del contenido 
 double convertir([String valor ='0']) {
   try{
   double convertidor =double.parse(valor);
 return convertidor;
   } catch (e){
-    print("no se pudo comvertir error : $e");
 return 0.0;
   }
 }

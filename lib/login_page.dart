@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:smca_application/Screens/notifications.dart';
-import 'package:smca_application/Screens/profile.dart';
+import 'package:smca_application/Screens/container.dart';
 import 'package:smca_application/global/common/toast.dart';
 import 'package:smca_application/sign_in_screen.dart';
 import 'package:smca_application/theme/app_theme.dart';
@@ -15,14 +15,81 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final ref = FirebaseDatabase.instance.ref('usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor');
+
+
   int selectedIndex = 0;
   final FirebaseAuthService _auth = FirebaseAuthService();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+
+
+
+
+double altura=0;
+double tamanio=0;
+int ids=0;
+
+
+   void validateContent() async{
+     String snapGuar='';
+final ref = FirebaseDatabase.instance.ref();
+final snapshot = await ref.child('usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor/id').get();
+    snapGuar=snapshot.value.toString();
+    print("$snapGuar valor de id en funcio");
+if (snapGuar!='0') {
+        final route1= MaterialPageRoute(builder: (context) =>  ContainerDetails(
+          imagePath:"",
+          title1: '',
+          title2: altura,
+          height: tamanio,
+          id: ids,
+        ));
+        Navigator.push(context, route1);
+} else {
+        final route=MaterialPageRoute(builder: (context)=> const SignIn());
+        Navigator.push(context, route);
+}
+  }
+
+
+double convertir([String valor ='0']) {
+  try{
+  double convertidor =double.parse(valor);
+print("$convertidor en su proceso de com");
+return convertidor;
+  } catch (e){
+    print("no se pudo comvertir error : $e");
+return 0.0;
+  }
+}
+
+int convertirInt([String valor ='0']) {
+  try{
+  int convertidor =int.parse(valor);
+print("$convertidor en su proceso de com");
+return convertidor;
+  } catch (e){
+    print("no se pudo comvertir error : $e");
+return 0;
+  }
+}
+
+
   @override
   Widget build(BuildContext context) {
+
+
+
+
+
+  
+
+
+
+
     return Container(
       decoration: AppTheme.foundColor,
       child: Scaffold(
@@ -76,23 +143,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   // En LoginPage
-  void openScreen(BuildContext context, int index) {
-    late MaterialPageRoute ruta;
-    switch (index) {
-      case 1:
-        ruta = MaterialPageRoute(builder: (context) => const Notifications());
-        break;
-      case 2:
-        ruta = MaterialPageRoute(builder: (context) => const Profile());
-        break;
-    }
-    setState(() {
-      selectedIndex = index;
-    });
-    if (index != 0) {
-      Navigator.push(context, ruta);
-    }
-  }
+  
 
   Widget _icon() {
     return Container(
@@ -149,9 +200,40 @@ class _LoginPageState extends State<LoginPage> {
 
     if (user != null) {
       showToast(message: "el usuario ha ingresado");
-      final route = MaterialPageRoute(builder: (context) => const SignIn());
-      Navigator.push(context, route);
-    }
+
+        final ref = FirebaseDatabase.instance.ref("usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor/");
+        final snapshot = await ref.child('altura').get();
+        if (snapshot.exists) {
+
+        final altu=snapshot.value.toString();
+        altura=convertir(altu);
+          } else {
+              print('no encontro altura.');
+          }
+        
+        final snapshot2 = await ref.child('cantidad').get();
+        if (snapshot2.exists) {
+        final tama=snapshot2.value.toString();
+        tamanio=convertir(tama);
+          } else {
+              print('no encontro tamaño.');
+          }
+        
+        final snapshot3 = await ref.child('ids').get();
+        if (snapshot3.exists) {
+        final id=snapshot2.value.toString();
+        ids=convertirInt(id);
+          } else {
+              print('No encontro id.');
+          }
+        
+      validateContent();
+
+      
+      
+       }
   }
+
+
 
 }

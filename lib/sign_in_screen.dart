@@ -8,10 +8,6 @@ import 'package:smca_application/theme/app_theme.dart';
 class SignIn extends StatefulWidget {
   final ContainerDetails? selectedContainer;
 
-
-
-
-
   const SignIn({Key? key, this.selectedContainer}) : super(key: key);
 
   @override
