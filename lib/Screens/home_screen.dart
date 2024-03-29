@@ -60,7 +60,7 @@ class HomePage extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white, backgroundColor: Colors.blue, 
+        foregroundColor: Colors.white, backgroundColor: Colors.blue,
         shape: const StadiumBorder(),
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         elevation: 8, // Sombra del botón

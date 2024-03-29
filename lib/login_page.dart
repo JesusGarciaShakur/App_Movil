@@ -15,8 +15,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final ref = FirebaseDatabase.instance.ref('usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor');
-
+  final ref = FirebaseDatabase.instance
+      .ref('usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor');
 
   int selectedIndex = 0;
   final FirebaseAuthService _auth = FirebaseAuthService();
@@ -24,72 +24,58 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  double altura = 0;
+  double tamanio = 0;
+  int ids = 0;
 
-
-
-
-double altura=0;
-double tamanio=0;
-int ids=0;
-
-
-   void validateContent() async{
-     String snapGuar='';
-final ref = FirebaseDatabase.instance.ref();
-final snapshot = await ref.child('usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor/id').get();
-    snapGuar=snapshot.value.toString();
+  void validateContent() async {
+    String snapGuar = '';
+    final ref = FirebaseDatabase.instance.ref();
+    final snapshot = await ref
+        .child('usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor/id')
+        .get();
+    snapGuar = snapshot.value.toString();
     print("$snapGuar valor de id en funcio");
-if (snapGuar!='0') {
-        final route1= MaterialPageRoute(builder: (context) =>  ContainerDetails(
-          imagePath:"",
-          title1: '',
-          title2: altura,
-          height: tamanio,
-          id: ids,
-        ));
-        Navigator.push(context, route1);
-} else {
-        final route=MaterialPageRoute(builder: (context)=> const SignIn());
-        Navigator.push(context, route);
-}
+    if (snapGuar != '0') {
+      final route1 = MaterialPageRoute(
+          builder: (context) => ContainerDetails(
+                imagePath: "",
+                title1: '',
+                title2: altura,
+                height: tamanio,
+                id: ids,
+              ));
+      Navigator.push(context, route1);
+    } else {
+      final route = MaterialPageRoute(builder: (context) => const SignIn());
+      Navigator.push(context, route);
+    }
   }
 
-
-double convertir([String valor ='0']) {
-  try{
-  double convertidor =double.parse(valor);
-print("$convertidor en su proceso de com");
-return convertidor;
-  } catch (e){
-    print("no se pudo comvertir error : $e");
-return 0.0;
+  double convertir([String valor = '0']) {
+    try {
+      double convertidor = double.parse(valor);
+      print("$convertidor en su proceso de com");
+      return convertidor;
+    } catch (e) {
+      print("no se pudo comvertir error : $e");
+      return 0.0;
+    }
   }
-}
 
-int convertirInt([String valor ='0']) {
-  try{
-  int convertidor =int.parse(valor);
-print("$convertidor en su proceso de com");
-return convertidor;
-  } catch (e){
-    print("no se pudo comvertir error : $e");
-return 0;
+  int convertirInt([String valor = '0']) {
+    try {
+      int convertidor = int.parse(valor);
+      print("$convertidor en su proceso de com");
+      return convertidor;
+    } catch (e) {
+      print("no se pudo comvertir error : $e");
+      return 0;
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
-
-  
-
-
-
-
     return Container(
       decoration: AppTheme.foundColor,
       child: Scaffold(
@@ -143,7 +129,6 @@ return 0;
   }
 
   // En LoginPage
-  
 
   Widget _icon() {
     return Container(
@@ -201,39 +186,33 @@ return 0;
     if (user != null) {
       showToast(message: "el usuario ha ingresado");
 
-        final ref = FirebaseDatabase.instance.ref("usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor/");
-        final snapshot = await ref.child('altura').get();
-        if (snapshot.exists) {
+      final ref = FirebaseDatabase.instance
+          .ref("usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor/");
+      final snapshot = await ref.child('altura').get();
+      if (snapshot.exists) {
+        final altu = snapshot.value.toString();
+        altura = convertir(altu);
+      } else {
+        print('no encontro altura.');
+      }
 
-        final altu=snapshot.value.toString();
-        altura=convertir(altu);
-          } else {
-              print('no encontro altura.');
-          }
-        
-        final snapshot2 = await ref.child('cantidad').get();
-        if (snapshot2.exists) {
-        final tama=snapshot2.value.toString();
-        tamanio=convertir(tama);
-          } else {
-              print('no encontro tamaño.');
-          }
-        
-        final snapshot3 = await ref.child('ids').get();
-        if (snapshot3.exists) {
-        final id=snapshot2.value.toString();
-        ids=convertirInt(id);
-          } else {
-              print('No encontro id.');
-          }
-        
+      final snapshot2 = await ref.child('cantidad').get();
+      if (snapshot2.exists) {
+        final tama = snapshot2.value.toString();
+        tamanio = convertir(tama);
+      } else {
+        print('no encontro tamaño.');
+      }
+
+      final snapshot3 = await ref.child('ids').get();
+      if (snapshot3.exists) {
+        final id = snapshot2.value.toString();
+        ids = convertirInt(id);
+      } else {
+        print('No encontro id.');
+      }
+
       validateContent();
-
-      
-      
-       }
+    }
   }
-
-
-
 }

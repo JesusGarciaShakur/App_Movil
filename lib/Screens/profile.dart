@@ -8,31 +8,30 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: const Text("Profile"),
       ),
-      body:  Column(
-      children: [
-        const Text("informacion del perfil"),
-
-        ElevatedButton(onPressed: ()async{
-          final ruta1=MaterialPageRoute(
-            builder: (context)=> const HomePage());
-            Navigator.push(context, ruta1);
-        },
-        child: const Text("Cerrar sesion")
-        ),
-         ElevatedButton(
-            onPressed: () {
-              final ruta1= MaterialPageRoute(builder:(context){
-                  return const SignIn();
-                });
+      body: Column(
+        children: [
+          const Text("informacion del perfil"),
+          ElevatedButton(
+              onPressed: () async {
+                final ruta1 =
+                    MaterialPageRoute(builder: (context) => const HomePage());
                 Navigator.push(context, ruta1);
+              },
+              child: const Text("Cerrar sesion")),
+          ElevatedButton(
+            onPressed: () {
+              final ruta1 = MaterialPageRoute(builder: (context) {
+                return const SignIn();
+              });
+              Navigator.push(context, ruta1);
             },
             child: Text('cambiar de contenedor'),
-         )
-      ],
+          )
+        ],
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:smca_application/Screens/container.dart';
@@ -15,21 +16,24 @@ class SignIn extends StatefulWidget {
 }
 
 class SignInState extends State<SignIn> {
-
-
-
-
-
-int checkContianer=0;
-
-
+  int checkContainer = 0;
   int selectedIndex = 0;
   ContainerDetails? _selectedContainer;
+  late DatabaseReference typeContainer;
 
   @override
   void initState() {
     super.initState();
     _selectedContainer = widget.selectedContainer;
+    _initDatabaseReference();
+  }
+
+  void _initDatabaseReference() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      typeContainer = FirebaseDatabase.instance
+          .ref("usuarios/${user.uid}/datos/contenedor");
+    }
   }
 
   @override
@@ -50,11 +54,9 @@ int checkContianer=0;
         backgroundColor: Colors.transparent,
         body: ListView(
           children: [
-            
             imageCard(),
           ],
         ),
-        
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: selectedIndex,
           onTap: (index) => openScreen(context, index),
@@ -98,7 +100,6 @@ int checkContianer=0;
     );
   }
 
-
   Widget imageCard() {
     return Container(
       margin: const EdgeInsets.all(20),
@@ -117,33 +118,20 @@ int checkContianer=0;
           const SizedBox(height: 20.0),
           Table(
             children: [
-
               TableRow(
                 children: [
                   GestureDetector(
                     onTap: () {
-                      navigateToContainerDetails(
-                        context,
-                        'assets/img/Tin750.png',
-                        'Tinaco',
-                        750,
-                        102,
-                        1
-                      );
+                      navigateToContainerDetails(context,
+                          'assets/img/Tin750.png', 'Tinaco', 750, 102, 1);
                     },
-                    child: imageContainer(
-                        'assets/img/Tin750.png', 'Tinaco', 750),
+                    child:
+                        imageContainer('assets/img/Tin750.png', 'Tinaco', 750),
                   ),
                   GestureDetector(
                     onTap: () {
-                      navigateToContainerDetails(
-                        context,
-                        'assets/img/Tin1100.png',
-                        'Tinaco',
-                        1100,
-                        140,
-                        2
-                      );
+                      navigateToContainerDetails(context,
+                          'assets/img/Tin1100.png', 'Tinaco', 1100, 140, 2);
                     },
                     child: imageContainer(
                         'assets/img/Tin1100.png', 'Tinaco', 1100),
@@ -154,28 +142,16 @@ int checkContianer=0;
                 children: [
                   GestureDetector(
                     onTap: () {
-                      navigateToContainerDetails(
-                        context,
-                        'assets/img/Tin1500.png',
-                        'Tinaco',
-                        1500,
-                        150,
-                        3
-                      );
+                      navigateToContainerDetails(context,
+                          'assets/img/Tin1500.png', 'Tinaco', 1500, 150, 3);
                     },
                     child: imageContainer(
                         'assets/img/Tin1500.png', 'Tinaco', 1500),
                   ),
                   GestureDetector(
                     onTap: () {
-                      navigateToContainerDetails(
-                        context,
-                        'assets/img/Tin2800.png',
-                        'Tinaco',
-                        2800,
-                        118,
-                        4
-                      );
+                      navigateToContainerDetails(context,
+                          'assets/img/Tin2800.png', 'Tinaco', 2800, 118, 4);
                     },
                     child: imageContainer(
                         'assets/img/Tin2800.png', 'Tinaco', 2800),
@@ -186,14 +162,8 @@ int checkContianer=0;
                 children: [
                   GestureDetector(
                     onTap: () {
-                      navigateToContainerDetails(
-                        context,
-                        'assets/img/Tin5000.png',
-                        'Tinaco',
-                        5000,
-                        177,
-                        5
-                      );
+                      navigateToContainerDetails(context,
+                          'assets/img/Tin5000.png', 'Tinaco', 5000, 177, 5);
                     },
                     child: imageContainer(
                         'assets/img/Tin5000.png', 'Tinaco', 5000),
@@ -201,7 +171,6 @@ int checkContianer=0;
                   GestureDetector(
                     onTap: () {
                       navigateToContainerDetails(
-                        
                         context,
                         'assets/img/Tin10000.png',
                         'Tinaco',
@@ -221,7 +190,6 @@ int checkContianer=0;
       ),
     );
   }
-
 
   Widget imageContainer(String imagePath, String title1, double title2) {
     return SizedBox(
@@ -253,7 +221,7 @@ int checkContianer=0;
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text("${title2.toStringAsFixed(0)} litros" )
+              Text("${title2.toStringAsFixed(0)} litros")
             ],
           ),
         ),
@@ -279,27 +247,20 @@ int checkContianer=0;
     });
     Navigator.push(context, ruta);
   }
-DatabaseReference typeContainer = FirebaseDatabase.instance.ref("usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor");
 
-  
   void navigateToContainerDetails(BuildContext context, String imagePath,
       String title1, double title2, double height, int id) async {
-    Navigator.push(context, MaterialPageRoute(
+    Navigator.push(
+      context,
+      MaterialPageRoute(
         builder: (context) => ContainerDetails(
-          imagePath: imagePath,
-          title1: title1,
-          title2: title2,
-          height: height,
-          id:id
-        ),
+            imagePath: imagePath,
+            title1: title1,
+            title2: title2,
+            height: height,
+            id: id),
       ),
     );
-   await typeContainer.set({
-  'id':id,
-  'altura':height,
-  'cantidad':title2
-  });
-
-
+    await typeContainer.set({'id': id, 'altura': height, 'cantidad': title2});
   }
 }

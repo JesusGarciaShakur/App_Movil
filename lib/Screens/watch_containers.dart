@@ -1,28 +1,28 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class WatchContainers extends StatefulWidget {
-  const WatchContainers({super.key});
+  const WatchContainers({Key? key}) : super(key: key);
 
   @override
   State<WatchContainers> createState() => _WatchContainersState();
 }
 
 class _WatchContainersState extends State<WatchContainers> {
-  // variable de resolucion de data base
   final Future<FirebaseApp> _fApp = Firebase.initializeApp();
-
   String reaLTimeValue = '0';
   String getOnceValue = "0";
 
   @override
   Widget build(BuildContext context) {
+    final User? user = FirebaseAuth.instance.currentUser;
+
     DatabaseReference _testRef = FirebaseDatabase.instance
         .reference()
         .child("usuarios")
-        .child(
-            'PJXMhNNDgFawm1WxVVidkPf4H5R2') // Cambia por el UID del usuario correspondiente
+        .child(user?.uid ?? '') // Utiliza el UID del usuario actual
         .child('datos')
         .child('ultrasonico');
 
@@ -38,25 +38,24 @@ class _WatchContainersState extends State<WatchContainers> {
       ),
       body: SingleChildScrollView(
         child: SizedBox(
-          width: MediaQuery.of(context).size.width, // Ancho de la pantalla
+          width: MediaQuery.of(context).size.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               FutureBuilder(
-                  future: _fApp,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return const Text("Algo salió mal con Firebase");
-                    } else if (snapshot.hasData) {
-                      return const Text("Firebase está inicializado");
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
+                future: _fApp,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return const Text("Algo salió mal con Firebase");
+                  } else if (snapshot.hasData) {
+                    return const Text("Firebase está inicializado");
+                  } else {
+                    return const CircularProgressIndicator();
                   }
-                  ),
+                },
+              ),
               GestureDetector(
                 onTap: () async {
-                  // obtener el valor una vez de firebase
                   final snapshot = await _testRef.get();
                   if (snapshot.exists) {
                     setState(() {
@@ -70,17 +69,16 @@ class _WatchContainersState extends State<WatchContainers> {
                   height: 50,
                   width: 150,
                   decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(20)),
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: const Center(child: Text("Soy otro botón")),
                 ),
               ),
-
               buildContainerWithIndicator(
                   'Segundo Contenedor getonce $getOnceValue', context),
               buildContainerWithIndicator(
                   'Tercer Contenedor realtime $reaLTimeValue', context),
-              // Agrega más contenedores si es necesario
             ],
           ),
         ),
@@ -102,9 +100,6 @@ class _WatchContainersState extends State<WatchContainers> {
       ),
       child: Row(
         children: [
-          // const Image(
-          //     image: NetworkImage(
-          //         'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',)),
           const CircularProgressIndicator.adaptive(),
           const SizedBox(
               width:
