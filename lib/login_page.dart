@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smca_application/Screens/container.dart';
 import 'package:smca_application/global/common/toast.dart';
 import 'package:smca_application/sign_in_screen.dart';
@@ -8,6 +9,7 @@ import 'package:smca_application/theme/app_theme.dart';
 import 'package:smca_application/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 
 class LoginPage extends StatefulWidget {
+  static const String routename = 'Login';
   const LoginPage({Key? key}) : super(key: key);
 
   @override
@@ -15,11 +17,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final ref = FirebaseDatabase.instance
-      .ref('usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor');
-
-  int selectedIndex = 0;
   final FirebaseAuthService _auth = FirebaseAuthService();
+  bool? checkGuardarDatos = false;
+  SharedPreferences? _prefs;
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -28,50 +28,22 @@ class _LoginPageState extends State<LoginPage> {
   double tamanio = 0;
   int ids = 0;
 
-  void validateContent() async {
-    String snapGuar = '';
-    final ref = FirebaseDatabase.instance.ref();
-    final snapshot = await ref
-        .child('usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor/id')
-        .get();
-    snapGuar = snapshot.value.toString();
-    print("$snapGuar valor de id en funcio");
-    if (snapGuar != '0') {
-      final route1 = MaterialPageRoute(
-          builder: (context) => ContainerDetails(
-                imagePath: "",
-                title1: '',
-                title2: altura,
-                height: tamanio,
-                id: ids,
-              ));
-      Navigator.push(context, route1);
-    } else {
-      final route = MaterialPageRoute(builder: (context) => const SignIn());
-      Navigator.push(context, route);
-    }
+  @override
+  void initState() {
+    cargarPreferencias();
+    super.initState();
   }
 
-  double convertir([String valor = '0']) {
-    try {
-      double convertidor = double.parse(valor);
-      print("$convertidor en su proceso de com");
-      return convertidor;
-    } catch (e) {
-      print("no se pudo comvertir error : $e");
-      return 0.0;
-    }
-  }
+  cargarPreferencias() async {
+    _prefs = await SharedPreferences.getInstance();
 
-  int convertirInt([String valor = '0']) {
-    try {
-      int convertidor = int.parse(valor);
-      print("$convertidor en su proceso de com");
-      return convertidor;
-    } catch (e) {
-      print("no se pudo comvertir error : $e");
-      return 0;
-    }
+    // Obtener credenciales guardadas
+    String? savedEmail = _prefs!.getString('email');
+    String? savedPassword = _prefs!.getString('password');
+
+    // Establecer el texto en los controladores de texto
+    emailController.text = savedEmail ?? '';
+    passwordController.text = savedPassword ?? '';
   }
 
   @override
@@ -102,6 +74,26 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 30.0),
             _inputField("Contraseña", passwordController, isPassword: true),
             const SizedBox(height: 50.0),
+            Container(
+              margin: const EdgeInsets.symmetric(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 6),
+                  CheckboxListTile(
+                    value: checkGuardarDatos,
+                    title: const Text('Guardar mis credenciales'),
+                    onChanged: (value) {
+                      setState(() {
+                        checkGuardarDatos = value;
+                      });
+                    },
+                    secondary: const Icon(Icons.safety_check),
+                  )
+                ],
+              ),
+            ),
             ElevatedButton(
               onPressed: _signIn,
               style: ElevatedButton.styleFrom(
@@ -182,12 +174,27 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
     User? user = await _auth.signInWithEmailAndPassword(email, password);
-
+    await cargarPreferencias(); // Cargar preferencias antes de usarlas
     if (user != null) {
       showToast(message: "el usuario ha ingresado");
 
-      final ref = FirebaseDatabase.instance
-          .ref("usuarios/PJXMhNNDgFawm1WxVVidkPf4H5R2/datos/contenedor/");
+      // Verificar si el usuario ha seleccionado guardar sus credenciales
+      if (checkGuardarDatos == true) {
+        // Guardar las credenciales solo si el checkbox está marcado
+        _prefs!.setString('email', email);
+        _prefs!.setString('password', password);
+        print('Credenciales guardadas exitosamente');
+      } else {
+        // Si el usuario no seleccionó guardar sus credenciales, borrar las credenciales guardadas
+        _prefs!.remove('email');
+        _prefs!.remove('password');
+        print('Credenciales eliminadas');
+      }
+
+      final uid = FirebaseAuth.instance.currentUser!.uid;
+
+      final ref =
+          FirebaseDatabase.instance.ref("usuarios/$uid/datos/contenedor/");
       final snapshot = await ref.child('altura').get();
       if (snapshot.exists) {
         final altu = snapshot.value.toString();
@@ -213,6 +220,51 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       validateContent();
+    }
+  }
+
+  void validateContent() async {
+    String snapGuar = '';
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final ref = FirebaseDatabase.instance.ref();
+    final snapshot = await ref.child('usuarios/$uid/datos/contenedor/id').get();
+    snapGuar = snapshot.value.toString();
+    print("$snapGuar valor de id en funcio");
+    if (snapGuar != '0') {
+      final route1 = MaterialPageRoute(
+          builder: (context) => ContainerDetails(
+                imagePath: "",
+                title1: '',
+                title2: altura,
+                height: tamanio,
+                id: ids,
+              ));
+      Navigator.push(context, route1);
+    } else {
+      final route = MaterialPageRoute(builder: (context) => const SignIn());
+      Navigator.push(context, route);
+    }
+  }
+
+  double convertir([String valor = '0']) {
+    try {
+      double convertidor = double.parse(valor);
+      print("$convertidor en su proceso de com");
+      return convertidor;
+    } catch (e) {
+      print("no se pudo comvertir error : $e");
+      return 0.0;
+    }
+  }
+
+  int convertirInt([String valor = '0']) {
+    try {
+      int convertidor = int.parse(valor);
+      print("$convertidor en su proceso de com");
+      return convertidor;
+    } catch (e) {
+      print("no se pudo comvertir error : $e");
+      return 0;
     }
   }
 }
