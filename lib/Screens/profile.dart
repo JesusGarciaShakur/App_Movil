@@ -16,12 +16,23 @@ class Profile extends StatelessWidget {
         children: [
           const Text("informacion del perfil"),
           ElevatedButton(
-              onPressed: () async {
-                final ruta1 =
-                    MaterialPageRoute(builder: (context) => const HomePage());
-                Navigator.push(context, ruta1);
-              },
-              child: const Text("Cerrar sesion")),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut(); // Cerrar sesión
+              Navigator.of(context).popUntil(
+                  (route) => route.isFirst); // Volver a la pantalla de inicio
+            },
+            child: const Text("Cerrar sesión"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final route = MaterialPageRoute(builder: (context) {
+                return const SignIn();
+              });
+              Navigator.push(
+                  context, route); // Ir a la pantalla de inicio de sesión
+            },
+            child: const Text('Cambiar de contenedor'),
+          ),
           ElevatedButton(
             onPressed: () {
               final ruta1 = MaterialPageRoute(builder: (context) {
