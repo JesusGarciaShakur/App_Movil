@@ -17,21 +17,14 @@ class Profile extends StatelessWidget {
           const Text("informacion del perfil"),
           ElevatedButton(
             onPressed: () async {
-              await FirebaseAuth.instance.signOut(); // Cerrar sesión
-              Navigator.of(context).popUntil(
-                  (route) => route.isFirst); // Volver a la pantalla de inicio
+              await FirebaseAuth.instance.signOut();
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+                (Route<dynamic> route) => false,
+              );
             },
             child: const Text("Cerrar sesión"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final route = MaterialPageRoute(builder: (context) {
-                return const SignIn();
-              });
-              Navigator.push(
-                  context, route); // Ir a la pantalla de inicio de sesión
-            },
-            child: const Text('Cambiar de contenedor'),
           ),
           ElevatedButton(
             onPressed: () {
@@ -40,7 +33,7 @@ class Profile extends StatelessWidget {
               });
               Navigator.push(context, ruta1);
             },
-            child: Text('cambiar de contenedor'),
+            child: const Text('Cambiar de contenedor'),
           )
         ],
       ),

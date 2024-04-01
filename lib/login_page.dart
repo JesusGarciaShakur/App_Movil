@@ -155,12 +155,46 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+// En la clase _LoginPageState
+
   Widget _passText() {
-    return const Text(
-      "¿Has olvidado la contraseña?",
-      textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 16.0, color: AppTheme.textColor),
+    return GestureDetector(
+      onTap: _resetPassword,
+      child: Text(
+        "¿Has olvidado la contraseña?",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 16.0,
+            color: AppTheme.textColor,
+            decoration: TextDecoration.underline),
+      ),
     );
+  }
+
+  void _resetPassword() async {
+    String email = emailController.text;
+
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+                'Por favor ingresa tu correo electrónico para restablecer la contraseña.')),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      showToast(
+          message:
+              "Se ha enviado un correo electrónico para restablecer tu contraseña.");
+    } catch (error) {
+      print(
+          "Error al enviar correo electrónico de restablecimiento de contraseña: $error");
+      showToast(
+          message:
+              "Error al enviar correo electrónico de restablecimiento de contraseña. Por favor, inténtalo de nuevo más tarde.");
+    }
   }
 
   void _signIn() async {
