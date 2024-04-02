@@ -4,4 +4,12 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application>
+        <!-- Agrega el atributo android:exported al receiver necesario -->
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
+            android:exported="true"> <!-- O asigna "false" según tus necesidades -->
+            <!-- Otros atributos del receiver aquí -->
+        </receiver>
+    </application>
 </manifest>

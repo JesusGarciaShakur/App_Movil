@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -53,11 +54,48 @@ class _ContainerDetailsState extends State<ContainerDetails> {
   // Index del menú de abajo
   int selectedIndex = 0;
 
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
   @override
   void initState() {
     super.initState();
     _initializeDatabaseReferences();
     _loadLinearValues();
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOS = IOSInitializationSettings();
+    var initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+  }
+
+  Future<void> onSelectNotification(String? payload) async {
+    if (payload != null) {
+      // Aquí puedes manejar la lógica basada en el payload de la notificación
+      print('Notificación seleccionada con payload: $payload');
+    } else {
+      // Si el payload es nulo, simplemente puedes mostrar un mensaje en la consola
+      print('Notificación seleccionada sin payload');
+    }
+  }
+
+  Future<void> _showNotification(
+      String title, String body, String payload) async {
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'channel_id', 'channel_name', 'channel_description',
+        importance: Importance.max, priority: Priority.high, ticker: 'ticker');
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin
+        .show(0, title, body, platformChannelSpecifics, payload: payload);
+    // Agrega un print para mostrar en la consola que se envió la notificación
+    print(
+        'Notificación enviada - Título: $title, Cuerpo: $body, Payload: $payload');
   }
 
   void _loadLinearValues() async {
@@ -131,6 +169,26 @@ class _ContainerDetailsState extends State<ContainerDetails> {
       return resultado;
     }
 
+    // Aquí es donde se actualiza el porcentaje y se llama a _updatePorcentaje()
+    void _updatePorcentaje(double newPorcentaje) {
+      setState(() {
+        porcent = newPorcentaje;
+        if (altura > distaan) {
+          if (porcent >= 90 && porcent < 91) {
+            _showNotification(
+                'Notificación 90%',
+                'El contenedor está casi lleno. Por favor, considere vaciarlo.',
+                '90_percent');
+          } else if (porcent >= 20 && porcent < 21) {
+            _showNotification(
+                'Notificación 20%',
+                'El contenedor está casi vacío. Por favor, considere llenarlo.',
+                '20_percent');
+          }
+        }
+      });
+    }
+
     if (porcent != 0) {
       porcent = 0.1;
     }
@@ -157,6 +215,13 @@ class _ContainerDetailsState extends State<ContainerDetails> {
         relay.update({'relay': 1});
       }
     }
+
+// Luego, donde actualizas el valor de porcent, llama a _updatePorcentaje():
+    medida.onValue.listen((event) {
+      double newPorcentaje =
+          calcularPor(altura, convertir(event.snapshot.value.toString()));
+      _updatePorcentaje(newPorcentaje);
+    });
 
     return Container(
       decoration: AppTheme.foundColor,
