@@ -31,14 +31,13 @@ class ContainerDetails extends StatefulWidget {
 }
 
 class _ContainerDetailsState extends State<ContainerDetails> {
-
   late DatabaseReference relay;
   late DatabaseReference relay2;
   late DatabaseReference typeContainer;
   late DatabaseReference medida;
   late String userId = "";
 
-    double altura = 0.1;
+  double altura = 0.1;
   // variable para guardar consulta
   String altu = "0.1";
   double distaan = 0.1;
@@ -53,8 +52,6 @@ class _ContainerDetailsState extends State<ContainerDetails> {
 
   // Index del menú de abajo
   int selectedIndex = 0;
-
-  
 
   @override
   void initState() {
@@ -77,54 +74,53 @@ class _ContainerDetailsState extends State<ContainerDetails> {
     prefs.setDouble('linearValue2', linearValue2);
   }
 
-
-
-void _initializeDatabaseReferences() {
-  final currentUser = FirebaseAuth.instance.currentUser;
-  if (currentUser != null) {
-    userId = currentUser.uid;
-    relay = FirebaseDatabase.instance.ref().child("usuarios/$userId/datos/");
-    relay2 = FirebaseDatabase.instance.ref().child("usuarios/$userId/datos/relay");
-    typeContainer = FirebaseDatabase.instance.ref().child("usuarios/$userId/datos/ultrasonico");
-    medida = FirebaseDatabase.instance.ref().child("usuarios/$userId/datos/contenedor/altura");
+  void _initializeDatabaseReferences() {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      userId = currentUser.uid;
+      relay = FirebaseDatabase.instance.ref().child("usuarios/$userId/datos/");
+      relay2 =
+          FirebaseDatabase.instance.ref().child("usuarios/$userId/datos/relay");
+      typeContainer = FirebaseDatabase.instance
+          .ref()
+          .child("usuarios/$userId/datos/ultrasonico");
+      medida = FirebaseDatabase.instance
+          .ref()
+          .child("usuarios/$userId/datos/contenedor/altura");
+    }
   }
-}
-
-
 
   @override
   Widget build(BuildContext context) {
-   
-double convertir([String valor = '0.1']) {
+    double convertir([String valor = '0.1']) {
       try {
         double convertidor = double.parse(valor);
-            return convertidor;
+        return convertidor;
       } catch (e) {
         print("no se pudo convertir error en pantalla de container: $e");
         return 0.0;
       }
     }
 
-        typeContainer.onValue.listen((event)  {
-          setState(()  {
-              altu =   event.snapshot.value.toString().trim();
-          });
-        });
-
-      relay2.onValue.listen((event)  {
-       setState(()  {
-        getOnceValue =  event.snapshot.value.toString();
+    typeContainer.onValue.listen((event) {
+      setState(() {
+        altu = event.snapshot.value.toString().trim();
       });
     });
 
-      medida.onValue.listen((event) {
+    relay2.onValue.listen((event) {
       setState(() {
-        getTamanoConten =  event.snapshot.value.toString();
+        getOnceValue = event.snapshot.value.toString();
+      });
+    });
+
+    medida.onValue.listen((event) {
+      setState(() {
+        getTamanoConten = event.snapshot.value.toString();
       });
     });
 
     distaan = convertir(altu);
-
 
     altura = convertir(getTamanoConten);
     // print("$altura altura traida de la pagina ");
@@ -134,33 +130,32 @@ double convertir([String valor = '0.1']) {
       double resultado = ((alto - medida) * 100) / alto;
       return resultado;
     }
-if(porcent!=0){
-  porcent=0.1;
-}
+
+    if (porcent != 0) {
+      porcent = 0.1;
+    }
     porcent = calcularPor(altura, distaan);
-    double circular = porcent/100;
+    double circular = porcent / 100;
     // print("$circular lo que cargara en el circular");
     if (circular > 1) {
       circular = 1;
-    }else if(circular <0.0){
-      circular=0.0;
+    } else if (circular < 0.0) {
+      circular = 0.0;
     }
 
-    if(porcent<0){
-      porcent=0.1;
+    if (porcent < 0) {
+      porcent = 0.1;
     }
     // print("$porcent  porcenta de la medida ya calculada de la base ");
 
-    if(altura>distaan){
+    if (altura > distaan) {
+      if (porcent > (linearValue2 * 100.001)) {
+        relay.update({'relay': 0});
+      }
 
-if(porcent>(linearValue2*100.001)){
-relay.update({'relay':0});
-} 
-
-if(porcent<(linearValue*100)){
-relay.update({'relay':1});
-
-}
+      if (porcent < (linearValue * 100)) {
+        relay.update({'relay': 1});
+      }
     }
 
     return Container(
@@ -238,12 +233,12 @@ relay.update({'relay':1});
                             }
                           });
                         },
-                        onPanEnd: (details){
-                          try{
-                          _saveLinearValues();
-                          }catch (e){
-                            print("no se guardo la configuracion del slider");                          }
-
+                        onPanEnd: (details) {
+                          try {
+                            _saveLinearValues();
+                          } catch (e) {
+                            print("no se guardo la configuracion del slider");
+                          }
                         },
                         child: LinearPercentIndicator(
                           width: MediaQuery.of(context).size.width - 100,
@@ -293,10 +288,10 @@ relay.update({'relay':1});
                             }
                           });
                         },
-                          onPanEnd: (details){
-                          try{
-                          _saveLinearValues();
-                          }catch (e){
+                        onPanEnd: (details) {
+                          try {
+                            _saveLinearValues();
+                          } catch (e) {
                             print("no se guardo la configuracion del slider");
                           }
                         },
@@ -355,14 +350,6 @@ relay.update({'relay':1});
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Lógica para el botón flotante (agregar)
-          },
-          backgroundColor: Colors.blue,
-          child: const Icon(Icons.add),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }
@@ -393,7 +380,6 @@ relay.update({'relay':1});
     Navigator.push(context, ruta);
   }
 
-
   String estado(String dato) {
     if (dato == "1") {
       return 'Activado';
@@ -402,27 +388,21 @@ relay.update({'relay':1});
     }
   }
 
-void apagarRele()async{
-  if(porcent>(linearValue*100)){
-    relay.update({"relay":0});
-  } else {
-    showToast(message:"No se puede apagar por el limite establecido");
+  void apagarRele() async {
+    if (porcent > (linearValue * 100)) {
+      relay.update({"relay": 0});
+    } else {
+      showToast(message: "No se puede apagar por el limite establecido");
+    }
   }
 
-}
-void prenderRele() async{
-  if(porcent<(linearValue2*100)){
-    relay.update({"relay":1});
-  }else if(porcent>(linearValue2*100)){
-    showToast(message: "se ha alcanzado limite de llenado ");
+  void prenderRele() async {
+    if (porcent < (linearValue2 * 100)) {
+      relay.update({"relay": 1});
+    } else if (porcent > (linearValue2 * 100)) {
+      showToast(message: "se ha alcanzado limite de llenado ");
+    }
   }
-
-  
-
-}
-
-
-
 
   Column statepomp() {
     return Column(
@@ -442,8 +422,8 @@ void prenderRele() async{
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             MaterialButton(
-              onPressed: prenderRele
-                  , // Llamar a la función para encender la bomba
+              onPressed:
+                  prenderRele, // Llamar a la función para encender la bomba
               highlightColor: Colors.blue,
               splashColor: const Color.fromARGB(255, 33, 243, 226),
               color: Colors.blue,
@@ -454,8 +434,7 @@ void prenderRele() async{
               ),
             ),
             MaterialButton(
-              onPressed:apagarRele
-                  , // Llamar a la función para apagar la bomba
+              onPressed: apagarRele, // Llamar a la función para apagar la bomba
               highlightColor: Colors.blue,
               splashColor: const Color.fromARGB(255, 243, 159, 33),
               color: Colors.blue,

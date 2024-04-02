@@ -27,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   double altura = 0;
   double tamanio = 0;
   int ids = 0;
+  bool obscurePassword = true;
 
   @override
   void initState() {
@@ -52,10 +53,15 @@ class _LoginPageState extends State<LoginPage> {
       decoration: AppTheme.foundColor,
       child: Scaffold(
         backgroundColor: AppTheme.bottomColor,
-        body: ListView(
-          children: [
-            page(),
-          ],
+        body: Center(
+          child: Center(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height *
+                      0.1), // Agregar relleno vertical para centrar el contenido
+              child: page(),
+            ),
+          ),
         ),
       ),
     );
@@ -70,9 +76,10 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             _icon(),
             const SizedBox(height: 50.0),
-            _inputField("Correo", emailController),
+            _inputField("Correo", emailController, Icons.email),
             const SizedBox(height: 30.0),
-            _inputField("Contraseña", passwordController, isPassword: true),
+            _inputField("Contraseña", passwordController, Icons.lock,
+                isPassword: true),
             const SizedBox(height: 50.0),
             Container(
               margin: const EdgeInsets.symmetric(),
@@ -136,8 +143,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _inputField(String hintText, TextEditingController controller,
-      {isPassword = false}) {
+  Widget _inputField(
+      String hintText, TextEditingController controller, IconData icon,
+      {bool isPassword = false}) {
     var border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(18.0),
       borderSide: const BorderSide(color: AppTheme.textColor),
@@ -150,12 +158,26 @@ class _LoginPageState extends State<LoginPage> {
         hintStyle: const TextStyle(color: AppTheme.textColor),
         enabledBorder: border,
         focusedBorder: border,
+        prefixIcon: Icon(icon, color: AppTheme.textColor),
+        suffixIcon: isPassword
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    obscurePassword = !obscurePassword;
+                  });
+                },
+                icon: Icon(
+                  obscurePassword ? Icons.visibility_off : Icons.visibility,
+                  color: AppTheme.textColor,
+                ),
+              )
+            : null,
       ),
-      obscureText: isPassword,
+      obscureText: isPassword && obscurePassword,
     );
   }
 
-// En la clase _LoginPageState
+  // En la clase _LoginPageState
 
   Widget _passText() {
     return GestureDetector(
