@@ -247,7 +247,7 @@ class _LoginPageState extends State<LoginPage> {
 
       final snapshot3 = await ref.child('ids').get();
       if (snapshot3.exists) {
-        final id = snapshot2.value.toString();
+        final id = snapshot3.value.toString();
         ids = convertirInt(id);
       } else {
         print('No encontro id.');

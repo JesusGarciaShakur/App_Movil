@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,7 +7,6 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:smca_application/Screens/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smca_application/global/common/toast.dart';
-import 'package:smca_application/sign_in_screen.dart';
 import 'package:smca_application/theme/app_theme.dart';
 
 // Importa el widget Notifications
@@ -33,26 +31,30 @@ class ContainerDetails extends StatefulWidget {
 }
 
 class _ContainerDetailsState extends State<ContainerDetails> {
-  final Future<FirebaseApp> _fApp = Firebase.initializeApp();
 
   late DatabaseReference relay;
   late DatabaseReference relay2;
   late DatabaseReference typeContainer;
+  late DatabaseReference medida;
   late String userId = "";
 
-  // variable para guardar consulta del ultra
-  String altu = "";
-  double distaan = 0;
-  double porcent = 0;
+    double altura = 0.1;
+  // variable para guardar consulta
+  String altu = "0.1";
+  double distaan = 0.1;
+  double porcent = 0.1;
   // variable para controlar el controlador dela barra
   double linearValue = 0.1;
   double linearValue2 = 0.8;
 
   // Variable para guardar el estado de la bomba
-  String getOnceValue = "";
+  String getOnceValue = "0";
+  String getTamanoConten = "0.0";
 
   // Index del menú de abajo
   int selectedIndex = 0;
+
+  
 
   @override
   void initState() {
@@ -75,126 +77,90 @@ class _ContainerDetailsState extends State<ContainerDetails> {
     prefs.setDouble('linearValue2', linearValue2);
   }
 
-  void _controlBomba() {
-    if (porcent < (linearValue * 100)) {
-      // Si el porcentaje es menor que linearValue, activar la bomba solo si está apagada
-      if (getOnceValue != "1") {
-        relay.update({"relay": 1});
-        setState(() {
-          getOnceValue = "1";
-        });
-      }
-    } else if (porcent > (linearValue2 * 100)) {
-      // Si el porcentaje es mayor que linearValue2, desactivar la bomba solo si está encendida
-      if (getOnceValue != "0") {
-        relay.update({"relay": 0});
-        setState(() {
-          getOnceValue = "0";
-        });
-      }
-    }
-  }
 
-  void _handleSliderValueChanged(double newValue) {
-    setState(() {
-      linearValue = newValue;
-    });
-    _saveLinearValues();
-    _controlBomba();
-  }
 
-  void _handleApagarBomba() {
-    relay.update({"relay": 0});
-    setState(() {
-      getOnceValue = "0";
-    });
-    _controlBomba();
+void _initializeDatabaseReferences() {
+  final currentUser = FirebaseAuth.instance.currentUser;
+  if (currentUser != null) {
+    userId = currentUser.uid;
+    relay = FirebaseDatabase.instance.ref().child("usuarios/$userId/datos/");
+    relay2 = FirebaseDatabase.instance.ref().child("usuarios/$userId/datos/relay");
+    typeContainer = FirebaseDatabase.instance.ref().child("usuarios/$userId/datos/ultrasonico");
+    medida = FirebaseDatabase.instance.ref().child("usuarios/$userId/datos/contenedor/altura");
   }
+}
 
-  void _handleEncenderBomba() {
-    relay.update({"relay": 1});
-    setState(() {
-      getOnceValue = "1";
-    });
-    _controlBomba();
-  }
 
-  void _initializeDatabaseReferences() {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      userId = currentUser.uid;
-      relay = FirebaseDatabase.instance
-          .reference()
-          .child("usuarios/$userId/datos/");
-      relay2 = FirebaseDatabase.instance
-          .reference()
-          .child("usuarios/$userId/datos/relay");
-      typeContainer = FirebaseDatabase.instance
-          .reference()
-          .child("usuarios/$userId/datos/ultrasonico");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    if (_fApp != null) {
-      if (_fApp is Future<FirebaseApp>) {
-        // consulta de la distancia
-        typeContainer.onValue.listen((event) async {
-          await Future.delayed(const Duration(seconds: 6));
-          setState(() {
-            Future.delayed(const Duration(seconds: 1));
-            altu = event.snapshot.value.toString().trim();
-          });
-        });
-      } else {
-        print("hubo error");
-      }
-    } else {
-      print("cargando lo demas");
-    }
-
-    //get datos para mostrar en relación del contenido
-    double convertir([String valor = '0']) {
+   
+double convertir([String valor = '0.1']) {
       try {
         double convertidor = double.parse(valor);
-        return convertidor;
+            return convertidor;
       } catch (e) {
+        print("no se pudo convertir error en pantalla de container: $e");
         return 0.0;
       }
     }
 
-    relay2.onValue.listen((event) {
+        typeContainer.onValue.listen((event)  {
+          setState(()  {
+              altu =   event.snapshot.value.toString().trim();
+          });
+        });
+
+      relay2.onValue.listen((event)  {
+       setState(()  {
+        getOnceValue =  event.snapshot.value.toString();
+      });
+    });
+
+      medida.onValue.listen((event) {
       setState(() {
-        getOnceValue = event.snapshot.value.toString();
+        getTamanoConten =  event.snapshot.value.toString();
       });
     });
 
     distaan = convertir(altu);
 
-    double altura = 0;
-    altura = widget.height;
+
+    altura = convertir(getTamanoConten);
+    // print("$altura altura traida de la pagina ");
 
     double calcularPor(double altura, double medida) {
       double alto = altura;
-
       double resultado = ((alto - medida) * 100) / alto;
-
       return resultado;
     }
-
+if(porcent!=0){
+  porcent=0.1;
+}
     porcent = calcularPor(altura, distaan);
-    double circular = porcent / 100;
+    double circular = porcent/100;
+    // print("$circular lo que cargara en el circular");
     if (circular > 1) {
       circular = 1;
+    }else if(circular <0.0){
+      circular=0.0;
     }
 
-    if (porcent < (linearValue * 100)) {
-      relay.update({"relay": 1});
+    if(porcent<0){
+      porcent=0.1;
     }
+    // print("$porcent  porcenta de la medida ya calculada de la base ");
 
-    if (porcent > (linearValue2 * 100)) {
-      relay.update({"relay": 0});
+    if(altura>distaan){
+
+if(porcent>(linearValue2*100.001)){
+relay.update({'relay':0});
+} 
+
+if(porcent<(linearValue*100)){
+relay.update({'relay':1});
+
+}
     }
 
     return Container(
@@ -241,7 +207,7 @@ class _ContainerDetailsState extends State<ContainerDetails> {
                 const SizedBox(height: 70),
                 Text(
                   "Encender con el contenido en: ${(linearValue * 100).toStringAsFixed(0)}%",
-                  style: TextStyle(fontSize: 21),
+                  style: const TextStyle(fontSize: 21),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -256,7 +222,6 @@ class _ContainerDetailsState extends State<ContainerDetails> {
                             linearValue = tapPosition /
                                 (MediaQuery.of(context).size.width - 120);
                             linearValue = linearValue.clamp(0.0, 1.0);
-                            _saveLinearValues(); // Guardar el valor
                           });
                         },
                         onPanUpdate: (details) {
@@ -271,8 +236,14 @@ class _ContainerDetailsState extends State<ContainerDetails> {
                                   message:
                                       "No sobreponer el porcentaje de encendido");
                             }
-                            _saveLinearValues(); // Guardar el valor
                           });
+                        },
+                        onPanEnd: (details){
+                          try{
+                          _saveLinearValues();
+                          }catch (e){
+                            print("no se guardo la configuracion del slider");                          }
+
                         },
                         child: LinearPercentIndicator(
                           width: MediaQuery.of(context).size.width - 100,
@@ -306,7 +277,6 @@ class _ContainerDetailsState extends State<ContainerDetails> {
                             linearValue2 = tapPosition /
                                 (MediaQuery.of(context).size.width - 120);
                             linearValue2 = linearValue2.clamp(0.0, 1.0);
-                            _saveLinearValues(); // Guardar el valor
                           });
                         },
                         onPanUpdate: (details) {
@@ -321,8 +291,14 @@ class _ContainerDetailsState extends State<ContainerDetails> {
                                   message:
                                       "No se puede estar debajo del porcentaje de encendido");
                             }
-                            _saveLinearValues(); // Guardar el valor
                           });
+                        },
+                          onPanEnd: (details){
+                          try{
+                          _saveLinearValues();
+                          }catch (e){
+                            print("no se guardo la configuracion del slider");
+                          }
                         },
                         child: LinearPercentIndicator(
                           width: MediaQuery.of(context).size.width - 100,
@@ -417,31 +393,6 @@ class _ContainerDetailsState extends State<ContainerDetails> {
     Navigator.push(context, ruta);
   }
 
-  Widget _buildBody() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(widget.imagePath),
-          const SizedBox(height: 20),
-          Text("${widget.title2.toStringAsFixed(0)} litros"),
-          const SizedBox(height: 20),
-          Text('Altura: ${widget.height.toStringAsFixed(0)} cm'),
-          const SizedBox(height: 20),
-          Text('id: ${widget.id.toString()}'),
-          ElevatedButton(
-            onPressed: () {
-              final ruta1 = MaterialPageRoute(builder: (context) {
-                return const SignIn();
-              });
-              Navigator.push(context, ruta1);
-            },
-            child: Text('Elegir otro contenedor'),
-          ),
-        ],
-      ),
-    );
-  }
 
   String estado(String dato) {
     if (dato == "1") {
@@ -450,6 +401,28 @@ class _ContainerDetailsState extends State<ContainerDetails> {
       return 'Desactivado';
     }
   }
+
+void apagarRele()async{
+  if(porcent>(linearValue*100)){
+    relay.update({"relay":0});
+  } else {
+    showToast(message:"No se puede apagar por el limite establecido");
+  }
+
+}
+void prenderRele() async{
+  if(porcent<(linearValue2*100)){
+    relay.update({"relay":1});
+  }else if(porcent>(linearValue2*100)){
+    showToast(message: "se ha alcanzado limite de llenado ");
+  }
+
+  
+
+}
+
+
+
 
   Column statepomp() {
     return Column(
@@ -469,8 +442,8 @@ class _ContainerDetailsState extends State<ContainerDetails> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             MaterialButton(
-              onPressed:
-                  _handleEncenderBomba, // Llamar a la función para encender la bomba
+              onPressed: prenderRele
+                  , // Llamar a la función para encender la bomba
               highlightColor: Colors.blue,
               splashColor: const Color.fromARGB(255, 33, 243, 226),
               color: Colors.blue,
@@ -481,8 +454,8 @@ class _ContainerDetailsState extends State<ContainerDetails> {
               ),
             ),
             MaterialButton(
-              onPressed:
-                  _handleApagarBomba, // Llamar a la función para apagar la bomba
+              onPressed:apagarRele
+                  , // Llamar a la función para apagar la bomba
               highlightColor: Colors.blue,
               splashColor: const Color.fromARGB(255, 243, 159, 33),
               color: Colors.blue,
