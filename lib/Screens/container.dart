@@ -5,13 +5,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:smca_application/Screens/Information.dart';
 import 'package:smca_application/Screens/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smca_application/global/common/toast.dart';
 import 'package:smca_application/theme/app_theme.dart';
-
-// Importa el widget Notifications
-import 'notifications.dart';
 
 class ContainerDetails extends StatefulWidget {
   final String imagePath;
@@ -400,10 +398,10 @@ class _ContainerDetailsState extends State<ContainerDetails> {
             BottomNavigationBarItem(
               backgroundColor: AppTheme.textColor,
               icon: Icon(
-                Icons.notification_add,
+                Icons.article_outlined,
                 color: AppTheme.textColor,
               ),
-              label: 'Notificaciones',
+              label: 'Informacion',
             ),
             BottomNavigationBarItem(
               backgroundColor: AppTheme.textColor,
@@ -433,7 +431,7 @@ class _ContainerDetailsState extends State<ContainerDetails> {
                 ));
         break;
       case 1:
-        ruta = MaterialPageRoute(builder: (context) => const Notifications());
+        ruta = MaterialPageRoute(builder: (context) => const Information());
         break;
       case 2:
         ruta = MaterialPageRoute(builder: (context) => const Profile());

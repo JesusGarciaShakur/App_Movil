@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:smca_application/Screens/Information.dart';
 import 'package:smca_application/Screens/container.dart';
-import 'package:smca_application/Screens/notifications.dart';
 import 'package:smca_application/Screens/profile.dart';
 import 'package:smca_application/theme/app_theme.dart';
 
@@ -73,10 +73,10 @@ class SignInState extends State<SignIn> {
             BottomNavigationBarItem(
               backgroundColor: AppTheme.textColor,
               icon: Icon(
-                Icons.notification_add,
+                Icons.article_outlined,
                 color: AppTheme.textColor,
               ),
-              label: 'Notificaciones',
+              label: 'Informacion',
             ),
             BottomNavigationBarItem(
               backgroundColor: AppTheme.textColor,
@@ -236,7 +236,7 @@ class SignInState extends State<SignIn> {
         ruta = MaterialPageRoute(builder: (context) => const SignIn());
         break;
       case 1:
-        ruta = MaterialPageRoute(builder: (context) => const Notifications());
+        ruta = MaterialPageRoute(builder: (context) => const Information());
         break;
       case 2:
         ruta = MaterialPageRoute(builder: (context) => const Profile());

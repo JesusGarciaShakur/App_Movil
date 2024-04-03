@@ -1,4 +1,3 @@
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,34 +13,31 @@ void main() async {
   runApp(const MainApp());
 }
 
-  double altura = 0;
-  double tamanio = 0;
-  int ids = 0;
+double altura = 0;
+double tamanio = 0;
+int ids = 0;
 
-
- double convertir([String valor = '0']) {
-    try {
-      double convertidor = double.parse(valor);
-      print("$convertidor en su proceso de com");
-      return convertidor;
-    } catch (e) {
-      print("no se pudo comvertir error : $e");
-      return 0.0;
-    }
+double convertir([String valor = '0']) {
+  try {
+    double convertidor = double.parse(valor);
+    print("$convertidor en su proceso de com");
+    return convertidor;
+  } catch (e) {
+    print("no se pudo comvertir error : $e");
+    return 0.0;
   }
+}
 
-  int convertirInt([String valor = '0']) {
-    try {
-      int convertidor = int.parse(valor);
-      print("$convertidor en su proceso de com");
-      return convertidor;
-    } catch (e) {
-      print("no se pudo comvertir error : $e");
-      return 0;
-    }
+int convertirInt([String valor = '0']) {
+  try {
+    int convertidor = int.parse(valor);
+    print("$convertidor en su proceso de com");
+    return convertidor;
+  } catch (e) {
+    print("no se pudo comvertir error : $e");
+    return 0;
   }
-
- 
+}
 
 class MainApp extends StatefulWidget {
   const MainApp({Key? key}) : super(key: key);
@@ -60,12 +56,10 @@ class _MainAppState extends State<MainApp> {
   }
 }
 
-
 class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-void validateContent() async {
+    void validateContent() async {
       final uid = FirebaseAuth.instance.currentUser!.uid;
       final ref =
           FirebaseDatabase.instance.ref("usuarios/$uid/datos/contenedor/");
@@ -91,7 +85,7 @@ void validateContent() async {
       } else {
         print('No encontro id.');
       }
-      
+
       final route1 = MaterialPageRoute(
           builder: (context) => ContainerDetails(
                 imagePath: "",
@@ -100,26 +94,25 @@ void validateContent() async {
                 height: tamanio,
                 id: ids,
               ));
-              Navigator.push(context,route1);
-}
-    return 
-    StreamBuilder(
+      Navigator.push(context, route1);
+    }
+
+    return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-
           // Si aún estamos esperando la comprobación de autenticación, mostramos una pantalla de carga.
           return CircularProgressIndicator();
         } else {
           if (snapshot.hasData) {
-        validateContent();
+            validateContent();
             // Si hay una sesión iniciada, redirigimos a notificaciones por el momento
-            return ContainerDetails(imagePath: '',
-             title1: 'title1',
-              title2: altura,
-               height: tamanio,
+            return ContainerDetails(
+                imagePath: '',
+                title1: 'title1',
+                title2: altura,
+                height: tamanio,
                 id: ids);
-  
           } else {
             // Si no hay una sesión iniciada, redirigimos a la página de inicio de sesión.
             return const HomePage();
@@ -128,11 +121,4 @@ void validateContent() async {
       },
     );
   }
-
-
-
-
-
-
-
 }

@@ -52,16 +52,11 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       decoration: AppTheme.foundColor,
       child: Scaffold(
-        backgroundColor: AppTheme.bottomColor,
-        body: Center(
-          child: Center(
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height *
-                      0.1), // Agregar relleno vertical para centrar el contenido
-              child: page(),
-            ),
-          ),
+        backgroundColor: Colors.transparent,
+        body: ListView(
+          children: [
+            page(),
+          ],
         ),
       ),
     );

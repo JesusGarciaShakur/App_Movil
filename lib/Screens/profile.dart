@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:smca_application/Screens/Information.dart';
 import 'package:smca_application/Screens/container.dart';
 import 'package:smca_application/Screens/home_screen.dart';
-import 'package:smca_application/Screens/notifications.dart';
 import 'package:smca_application/sign_in_screen.dart';
 import 'package:smca_application/theme/app_theme.dart';
 
@@ -43,66 +43,69 @@ int convertirInt([String valor = '0']) {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Profile"),
-      ),
-      body: Column(
-        children: [
-          const Text("informacion del perfil"),
-          ElevatedButton(
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-                (Route<dynamic> route) => false,
-              );
-            },
-            child: const Text("Cerrar sesión"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final ruta1 = MaterialPageRoute(builder: (context) {
-                return const SignIn();
-              });
-              Navigator.push(context, ruta1);
-            },
-            child: const Text('Cambiar de contenedor'),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        onTap: (index) => openScreen(context, index),
-        backgroundColor: const Color.fromARGB(237, 255, 255, 255),
-        items: const [
-          BottomNavigationBarItem(
-            backgroundColor: AppTheme.textColor,
-            icon: Icon(
-              Icons.home,
-              color: AppTheme.textColor,
+    return Container(
+      decoration: AppTheme.foundColor,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: const Text("Profile"),
+        ),
+        body: Column(
+          children: [
+            const Text("informacion del perfil"),
+            ElevatedButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+                  (Route<dynamic> route) => false,
+                );
+              },
+              child: const Text("Cerrar sesión"),
             ),
-            label: 'Inicio',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: AppTheme.textColor,
-            icon: Icon(
-              Icons.notification_add,
-              color: AppTheme.textColor,
+            ElevatedButton(
+              onPressed: () {
+                final ruta1 = MaterialPageRoute(builder: (context) {
+                  return const SignIn();
+                });
+                Navigator.push(context, ruta1);
+              },
+              child: const Text('Cambiar de contenedor'),
             ),
-            label: 'Notificaciones',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: AppTheme.textColor,
-            icon: Icon(
-              Icons.person,
-              color: AppTheme.textColor,
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: selectedIndex,
+          onTap: (index) => openScreen(context, index),
+          backgroundColor: const Color.fromARGB(237, 255, 255, 255),
+          items: const [
+            BottomNavigationBarItem(
+              backgroundColor: AppTheme.textColor,
+              icon: Icon(
+                Icons.home,
+                color: AppTheme.textColor,
+              ),
+              label: 'Inicio',
             ),
-            label: 'Perfil',
-          ),
-        ],
+            BottomNavigationBarItem(
+              backgroundColor: AppTheme.textColor,
+              icon: Icon(
+                Icons.article_outlined,
+                color: AppTheme.textColor,
+              ),
+              label: 'Informacion',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: AppTheme.textColor,
+              icon: Icon(
+                Icons.person,
+                color: AppTheme.textColor,
+              ),
+              label: 'Perfil',
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -121,7 +124,7 @@ class _ProfileState extends State<Profile> {
                 ));
         break;
       case 1:
-        ruta = MaterialPageRoute(builder: (context) => const Notifications());
+        ruta = MaterialPageRoute(builder: (context) => const Information());
         break;
       case 2:
         ruta = MaterialPageRoute(builder: (context) => const Profile());
