@@ -39,8 +39,27 @@ int convertirInt([String valor = '0']) {
     return 0;
   }
 }
-
 class _ProfileState extends State<Profile> {
+  late String? userEmail; // Variable para almacenar el correo electrónico
+
+  @override
+  void initState() {
+    super.initState();
+    // Llama a la función para obtener el correo electrónico al iniciar el estado del widget
+    getUserEmail();
+  }
+
+  // Función para obtener el correo electrónico del usuario actual
+  void getUserEmail() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      // Si el usuario está autenticado, obtén su correo electrónico
+      setState(() {
+        userEmail = currentUser.email;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,6 +71,8 @@ class _ProfileState extends State<Profile> {
         ),
         body: Column(
           children: [
+            // Muestra el correo electrónico del usuario
+            Text(userEmail ?? 'Cargando correo electrónico...'),
             const Text("informacion del perfil"),
             ElevatedButton(
               onPressed: () async {
@@ -109,7 +130,6 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
-
   void openScreen(BuildContext context, int index) {
     late MaterialPageRoute ruta;
     switch (index) {
