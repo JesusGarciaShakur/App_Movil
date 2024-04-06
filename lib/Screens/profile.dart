@@ -14,34 +14,18 @@ class Profile extends StatefulWidget {
   State<Profile> createState() => _ProfileState();
 }
 
-double convertir([String valor = '0']) {
-  try {
-    double convertidor = double.parse(valor);
-    print("$convertidor en su proceso de com");
-    return convertidor;
-  } catch (e) {
-    print("no se pudo comvertir error : $e");
-    return 0.0;
-  }
-}
+int selectedIndex = 2; // Índice inicial para el bottom navigation bar
 
-int convertirInt([String valor = '0']) {
-  try {
-    int convertidor = int.parse(valor);
-    print("$convertidor en su proceso de com");
-    return convertidor;
-  } catch (e) {
-    print("no se pudo comvertir error : $e");
-    return 0;
-  }
-}
+double altura = 0.0;
+double tamanio = 0.0;
+int ids = 0;
 
 class _ProfileState extends State<Profile> {
   late String? userEmail; // Variable para almacenar el correo electrónico
-  late int selectedIndex = 2; // Índice inicial para el bottom navigation bar
   late DatabaseReference typeContainer;
   late DatabaseReference medida;
   late String userId = "";
+
   @override
   void initState() {
     super.initState();
@@ -81,37 +65,120 @@ class _ProfileState extends State<Profile> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: const Text("Profile"),
+          title: const Text("Perfil de usuario"),
         ),
-        body: Column(
-          children: [
-            const Text("informacion del perfil"),
-            // Muestra el correo electrónico del usuario
-            Text('Correo electronico : $userEmail'),
-            // Muestra los datos de la base de datos
-            Text('Capacidad de litros: $tamanio'),
-            Text('ID de contenedor: $ids'),
-            ElevatedButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                  (Route<dynamic> route) => false,
-                );
-              },
-              child: const Text("Cerrar sesión"),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                const Icon(Icons.account_circle, size: 140, color: Colors.blue),
+                const SizedBox(height: 20),
+                const Text(
+                  "Información del perfil",
+                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Correo electrónico: $userEmail',
+                          style: const TextStyle(fontSize: 20)),
+                      const SizedBox(height: 10),
+                      const Divider(
+                        color: Color.fromARGB(50, 0, 0, 0),
+                        thickness: 1,
+                        height: 20,
+                      ),
+                      Text('ID de contenedor: $ids',
+                          style: const TextStyle(fontSize: 20)),
+                      const SizedBox(height: 10),
+                      const Divider(
+                        color: Color.fromARGB(50, 0, 0, 0),
+                        thickness: 1,
+                        height: 20,
+                      ),
+                      Text('Capacidad del contenedor: $tamanio litros',
+                          style: const TextStyle(fontSize: 20)),
+                      const SizedBox(height: 10),
+                      const Divider(
+                        color: Color.fromARGB(50, 0, 0, 0),
+                        thickness: 1,
+                        height: 20,
+                      ),
+                      Text('Altura del contenedor: $altura cm',
+                          style: const TextStyle(fontSize: 20)),
+                      const SizedBox(height: 10),
+                      const Divider(
+                        color: Color.fromARGB(50, 0, 0, 0),
+                        thickness: 1,
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: 50,
+                  child: Material(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(25),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(25),
+                      onTap: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()),
+                          (Route<dynamic> route) => false,
+                        );
+                      },
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          color: Colors.indigoAccent,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Cerrar sesión",
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      final ruta1 = MaterialPageRoute(builder: (context) {
+                        return const SignIn();
+                      });
+                      Navigator.push(context, ruta1);
+                    },
+                    child: const Text(
+                      'Cambiar de contenedor',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                final ruta1 = MaterialPageRoute(builder: (context) {
-                  return const SignIn();
-                });
-                Navigator.push(context, ruta1);
-              },
-              child: const Text('Cambiar de contenedor'),
-            ),
-          ],
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: selectedIndex,
@@ -132,7 +199,7 @@ class _ProfileState extends State<Profile> {
                 Icons.article_outlined,
                 color: AppTheme.textColor,
               ),
-              label: 'Informacion',
+              label: 'Información',
             ),
             BottomNavigationBarItem(
               backgroundColor: AppTheme.textColor,
@@ -181,14 +248,18 @@ class _ProfileState extends State<Profile> {
     final snapshot = await ref.child('altura').get();
     if (snapshot.exists) {
       final altu = snapshot.value.toString();
-      altura = convertir(altu);
+      setState(() {
+        altura = convertir(altu);
+      });
     } else {
       print('no encontro altura.');
     }
     final snapshot2 = await ref.child('cantidad').get();
     if (snapshot2.exists) {
       final tama = snapshot2.value.toString();
-      tamanio = convertir(tama);
+      setState(() {
+        tamanio = convertir(tama);
+      });
     } else {
       print('no encontro tamaño.');
     }
@@ -196,7 +267,9 @@ class _ProfileState extends State<Profile> {
     final snapshot3 = await ref.child('id').get();
     if (snapshot3.exists) {
       final id = snapshot3.value.toString();
-      ids = convertirInt(id);
+      setState(() {
+        ids = convertirInt(id);
+      });
     } else {
       print('No encontro id.');
     }

@@ -88,14 +88,6 @@ class SignInState extends State<SignIn> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Lógica para el botón flotante (agregar)
-          },
-          child: Icon(Icons.add),
-          backgroundColor: Colors.blue,
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }
@@ -123,38 +115,18 @@ class SignInState extends State<SignIn> {
                   GestureDetector(
                     onTap: () {
                       navigateToContainerDetails(context,
-                          'assets/img/Tin750.png', 'Tinaco', 750, 102, 1);
+                          'assets/img/Tin750_1.png', 'Tinaco', 750, 102, 1);
                     },
-                    child:
-                        imageContainer('assets/img/Tin750.png', 'Tinaco', 750),
+                    child: imageContainer(
+                        'assets/img/Tin750_1.png', 'Tinaco', 750),
                   ),
                   GestureDetector(
                     onTap: () {
                       navigateToContainerDetails(context,
-                          'assets/img/Tin1100.png', 'Tinaco', 1100, 140, 2);
+                          'assets/img/Tin1100_1.png', 'Tinaco', 1100, 140, 2);
                     },
                     child: imageContainer(
-                        'assets/img/Tin1100.png', 'Tinaco', 1100),
-                  ),
-                ],
-              ),
-              TableRow(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      navigateToContainerDetails(context,
-                          'assets/img/Tin1500.png', 'Tinaco', 1500, 150, 3);
-                    },
-                    child: imageContainer(
-                        'assets/img/Tin1500.png', 'Tinaco', 1500),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      navigateToContainerDetails(context,
-                          'assets/img/Tin2800.png', 'Tinaco', 2800, 118, 4);
-                    },
-                    child: imageContainer(
-                        'assets/img/Tin2800.png', 'Tinaco', 2800),
+                        'assets/img/Tin1100_1.png', 'Tinaco', 1100),
                   ),
                 ],
               ),
@@ -163,16 +135,36 @@ class SignInState extends State<SignIn> {
                   GestureDetector(
                     onTap: () {
                       navigateToContainerDetails(context,
-                          'assets/img/Tin5000.png', 'Tinaco', 5000, 177, 5);
+                          'assets/img/Tin1500_1.png', 'Tinaco', 1500, 150, 3);
                     },
                     child: imageContainer(
-                        'assets/img/Tin5000.png', 'Tinaco', 5000),
+                        'assets/img/Tin1500_1.png', 'Tinaco', 1500),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      navigateToContainerDetails(context,
+                          'assets/img/Tin2800_1.png', 'Tinaco', 2800, 118, 4);
+                    },
+                    child: imageContainer(
+                        'assets/img/Tin2800_1.png', 'Tinaco', 2800),
+                  ),
+                ],
+              ),
+              TableRow(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      navigateToContainerDetails(context,
+                          'assets/img/Tin5000_1.png', 'Tinaco', 5000, 177, 5);
+                    },
+                    child: imageContainer(
+                        'assets/img/Tin5000_1.png', 'Tinaco', 5000),
                   ),
                   GestureDetector(
                     onTap: () {
                       navigateToContainerDetails(
                         context,
-                        'assets/img/Tin10000.png',
+                        'assets/img/Tin10000_1.png',
                         'Tinaco',
                         10000,
                         310,
@@ -180,7 +172,7 @@ class SignInState extends State<SignIn> {
                       );
                     },
                     child: imageContainer(
-                        'assets/img/Tin10000.png', 'Tinaco', 10000),
+                        'assets/img/Tin10000_1.png', 'Tinaco', 10000),
                   ),
                 ],
               ),

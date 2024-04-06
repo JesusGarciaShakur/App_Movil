@@ -41,9 +41,13 @@ int convertirInt([String valor = '0']) {
 }
 
 class _InformationState extends State<Information> {
+  bool _expanded = false;
   bool _expanded1 = false;
   bool _expanded2 = false;
   bool _expanded3 = false;
+  bool _expanded4 = false;
+  bool _expanded5 = false;
+  bool _expanded6 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +62,29 @@ class _InformationState extends State<Information> {
           padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
           child: Column(
             children: [
+              const Text(
+                "Recomendaciones para el SMCA",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              const Divider(
+                color: Color.fromARGB(50, 0, 0, 0),
+                thickness: 1,
+                height: 20,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _expanded =
+                        !_expanded; // Cambia el estado de expansión al presionar el texto
+                  });
+                },
+                child: _buildExpandableText(
+                  "Porcentajes",
+                  _expanded,
+                  "Se recomienda mantener el procentaje del dispostivo entre el 20% y el 85% para evitar desbordamientos y que el dispoditivo sufra daños .",
+                ),
+              ),
               InkWell(
                 onTap: () {
                   setState(() {
@@ -96,6 +123,38 @@ class _InformationState extends State<Information> {
                   _expanded3,
                   'Si deseas cambiar de contraseña solo deberas ingresar a la seccion de perfil precionar sobre la opcion de cambiar contraseña y se enviara un correo electronico a tu cuenta solo deberas completar el formulario.',
                 ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _expanded4 =
+                        !_expanded4; // Cambia el estado de expansión al presionar el texto
+                  });
+                },
+                child: _buildExpandableText("Componentes internos", _expanded4,
+                    'No intentes abrir ni manipular los componentes internos del dispositivo, ya que esto podría causar daños irreparables.'),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _expanded5 =
+                        !_expanded5; // Cambia el estado de expansión al presionar el texto
+                  });
+                },
+                child: _buildExpandableText("Reportar problemas", _expanded5,
+                    'Si notas algún problema con el funcionamiento del dispositivo, como lecturas inexactas del nivel de agua o fallos en la bomba, reporta el problema al fabricante o al proveedor de servicios lo antes posible por medio de la pagina web para que puedan brindarte asistencia técnica'),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _expanded6 =
+                        !_expanded6; // Cambia el estado de expansión al presionar el texto
+                  });
+                },
+                child: _buildExpandableText(
+                    "Consulta con el fabricante",
+                    _expanded6,
+                    'Si tienes dudas sobre el mantenimiento o el uso adecuado del dispositivo, no dudes en ponerte en contacto con el fabricante para obtener orientación y asistencia adicional.'),
               ),
               // Aquí puedes agregar más textos expandibles si es necesario
             ],
@@ -144,6 +203,7 @@ class _InformationState extends State<Information> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
             color: const Color.fromARGB(255, 255, 254, 254),
+            border: Border.all(color: const Color.fromARGB(72, 0, 0, 0)),
           ),
           padding: const EdgeInsets.all(25.0),
           child: Row(
@@ -169,6 +229,7 @@ class _InformationState extends State<Information> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
               color: const Color.fromARGB(255, 255, 255, 255),
+              border: Border.all(color: const Color.fromARGB(72, 0, 0, 0)),
             ),
             padding: const EdgeInsets.all(16.0),
             child: Text(

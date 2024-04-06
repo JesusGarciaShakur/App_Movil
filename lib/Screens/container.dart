@@ -29,6 +29,8 @@ class ContainerDetails extends StatefulWidget {
   _ContainerDetailsState createState() => _ContainerDetailsState();
 }
 
+int selectedIndex = 0;
+
 class _ContainerDetailsState extends State<ContainerDetails> {
   late DatabaseReference relay;
   late DatabaseReference relay2;
@@ -50,7 +52,6 @@ class _ContainerDetailsState extends State<ContainerDetails> {
   String getTamanoConten = "0.0";
 
   // Index del menú de abajo
-  int selectedIndex = 0;
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
