@@ -51,7 +51,8 @@ class _ContainerDetailsState extends State<ContainerDetails> {
   String getOnceValue = "0";
   String getTamanoConten = "0.0";
 
-  // Index del menú de abajo
+  bool notificationShown80 = false;
+  bool notificationShown20 = false;
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -63,11 +64,12 @@ class _ContainerDetailsState extends State<ContainerDetails> {
     _loadLinearValues();
     var initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = IOSInitializationSettings();
     var initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification);
+      android: initializationSettingsAndroid,
+    );
+    flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+    );
   }
 
   Future<void> onSelectNotification(String? payload) async {
@@ -82,13 +84,12 @@ class _ContainerDetailsState extends State<ContainerDetails> {
 
   Future<void> _showNotification(
       String title, String body, String payload) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'channel_id', 'channel_name', 'channel_description',
-        importance: Importance.max, priority: Priority.high, ticker: 'ticker');
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
+    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+      'channel_id', 'channel_name',
+      playSound: true, // Reproducir sonido
+    );
+    var platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
 
     await flutterLocalNotificationsPlugin
         .show(0, title, body, platformChannelSpecifics, payload: payload);
@@ -173,16 +174,18 @@ class _ContainerDetailsState extends State<ContainerDetails> {
       setState(() {
         porcent = newPorcentaje;
         if (altura > distaan) {
-          if (porcent >= 90 && porcent < 91) {
+          if (porcent >= 80 && porcent > 90 && !notificationShown80) {
             _showNotification(
-                'Notificación 90%',
+                'Contenedor casi lleno',
                 'El contenedor está casi lleno. Por favor, considere vaciarlo.',
-                '90_percent');
-          } else if (porcent >= 20 && porcent < 21) {
+                '80_percent');
+            notificationShown80 = true;
+          } else if (porcent <= 20 && porcent > 10) {
             _showNotification(
-                'Notificación 20%',
+                'Contenedor casi vacio',
                 'El contenedor está casi vacío. Por favor, considere llenarlo.',
                 '20_percent');
+            notificationShown20 = true;
           }
         }
       });

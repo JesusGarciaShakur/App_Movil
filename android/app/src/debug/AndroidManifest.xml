@@ -8,7 +8,7 @@
     <application>
         <!-- Agrega el atributo android:exported al receiver necesario -->
         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
-            android:exported="true"> <!-- O asigna "false" según tus necesidades -->
+            android:exported="true">
             <!-- Otros atributos del receiver aquí -->
         </receiver>
     </application>
