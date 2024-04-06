@@ -8,15 +8,11 @@ import 'package:smca_application/sign_in_screen.dart';
 import 'package:smca_application/theme/app_theme.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
+  const Profile({Key? key}) : super(key: key);
 
   @override
   State<Profile> createState() => _ProfileState();
 }
-
-double altura = 0;
-double tamanio = 0;
-int ids = 0;
 
 double convertir([String valor = '0']) {
   try {
@@ -39,24 +35,42 @@ int convertirInt([String valor = '0']) {
     return 0;
   }
 }
+
 class _ProfileState extends State<Profile> {
   late String? userEmail; // Variable para almacenar el correo electrónico
-
+  late int selectedIndex = 2; // Índice inicial para el bottom navigation bar
+  late DatabaseReference typeContainer;
+  late DatabaseReference medida;
+  late String userId = "";
   @override
   void initState() {
     super.initState();
-    // Llama a la función para obtener el correo electrónico al iniciar el estado del widget
+    // Llama a la función para obtener el correo electrónico y los datos de la base de datos al iniciar el estado del widget
     getUserEmail();
+    _initializeDatabaseReferences();
+    validateContent();
   }
 
   // Función para obtener el correo electrónico del usuario actual
   void getUserEmail() async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-      // Si el usuario está autenticado, obtén su correo electrónico
       setState(() {
         userEmail = currentUser.email;
       });
+    }
+  }
+
+  void _initializeDatabaseReferences() {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      userId = currentUser.uid;
+      typeContainer = FirebaseDatabase.instance
+          .ref()
+          .child("usuarios/$userId/datos/ultrasonico");
+      medida = FirebaseDatabase.instance
+          .ref()
+          .child("usuarios/$userId/datos/contenedor/altura");
     }
   }
 
@@ -71,9 +85,12 @@ class _ProfileState extends State<Profile> {
         ),
         body: Column(
           children: [
-            // Muestra el correo electrónico del usuario
-            Text(userEmail ?? 'Cargando correo electrónico...'),
             const Text("informacion del perfil"),
+            // Muestra el correo electrónico del usuario
+            Text('Correo electronico : $userEmail'),
+            // Muestra los datos de la base de datos
+            Text('Capacidad de litros: $tamanio'),
+            Text('ID de contenedor: $ids'),
             ElevatedButton(
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
@@ -130,6 +147,7 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+
   void openScreen(BuildContext context, int index) {
     late MaterialPageRoute ruta;
     switch (index) {
