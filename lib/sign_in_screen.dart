@@ -57,37 +57,37 @@ class SignInState extends State<SignIn> {
             imageCard(),
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: (index) => openScreen(context, index),
-          backgroundColor: const Color.fromARGB(237, 255, 255, 255),
-          items: const [
-            BottomNavigationBarItem(
-              backgroundColor: AppTheme.textColor,
-              icon: Icon(
-                Icons.home,
-                color: AppTheme.textColor,
-              ),
-              label: 'Inicio',
-            ),
-            BottomNavigationBarItem(
-              backgroundColor: AppTheme.textColor,
-              icon: Icon(
-                Icons.article_outlined,
-                color: AppTheme.textColor,
-              ),
-              label: 'Informacion',
-            ),
-            BottomNavigationBarItem(
-              backgroundColor: AppTheme.textColor,
-              icon: Icon(
-                Icons.person,
-                color: AppTheme.textColor,
-              ),
-              label: 'Perfil',
-            ),
-          ],
-        ),
+        //     bottomNavigationBar: BottomNavigationBar(
+        //       currentIndex: selectedIndex,
+        //       onTap: (index) => openScreen(context, index),
+        //       backgroundColor: const Color.fromARGB(237, 255, 255, 255),
+        //       items: const [
+        //         BottomNavigationBarItem(
+        //           backgroundColor: AppTheme.textColor,
+        //           icon: Icon(
+        //             Icons.home,
+        //             color: AppTheme.textColor,
+        //           ),
+        //           label: 'Inicio',
+        //         ),
+        //         BottomNavigationBarItem(
+        //           backgroundColor: AppTheme.textColor,
+        //           icon: Icon(
+        //             Icons.article_outlined,
+        //             color: AppTheme.textColor,
+        //           ),
+        //           label: 'Informacion',
+        //         ),
+        //         BottomNavigationBarItem(
+        //           backgroundColor: AppTheme.textColor,
+        //           icon: Icon(
+        //             Icons.person,
+        //             color: AppTheme.textColor,
+        //           ),
+        //           label: 'Perfil',
+        //         ),
+        //       ],
+        //     ),
       ),
     );
   }
@@ -167,7 +167,7 @@ class SignInState extends State<SignIn> {
                         'assets/img/Tin10000_1.png',
                         'Tinaco',
                         10000,
-                        310,
+                        11,
                         6,
                       );
                     },

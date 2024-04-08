@@ -456,7 +456,7 @@ class _ContainerDetailsState extends State<ContainerDetails> {
   }
 
   void apagarRele() async {
-    if (porcent > (linearValue * 100)) {
+    if (porcent > (linearValue2 * 100)) {
       relay.update({"relay": 0});
     } else {
       showToast(message: "No se puede apagar por el limite establecido");
