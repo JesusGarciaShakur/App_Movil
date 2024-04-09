@@ -165,14 +165,14 @@ class SignInState extends State<SignIn> {
                       navigateToContainerDetails(
                         context,
                         'assets/img/Tin10000_1.png',
-                        'Tinaco',
+                        'Tinaco Prueba',
                         10000,
-                        11,
+                        13,
                         6,
                       );
                     },
                     child: imageContainer(
-                        'assets/img/Tin10000_1.png', 'Tinaco', 10000),
+                        'assets/img/Tin10000_1.png', 'Tinaco Prueba', 10000),
                   ),
                 ],
               ),

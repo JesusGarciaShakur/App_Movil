@@ -56,7 +56,7 @@ class _InformationState extends State<Information> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: const Text("Informacion"),
+          title: const Text("Información"),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
@@ -82,7 +82,7 @@ class _InformationState extends State<Information> {
                 child: _buildExpandableText(
                   "Porcentajes",
                   _expanded,
-                  "Se recomienda mantener el procentaje del dispostivo entre el 20% y el 85% para evitar desbordamientos y que el dispoditivo sufra daños .",
+                  "Se recomienda mantener el procentaje del dispostivo entre el 20% y el 85% para evitar desbordamientos y que el dispoditivo sufra daños.",
                 ),
               ),
               InkWell(
@@ -93,9 +93,9 @@ class _InformationState extends State<Information> {
                   });
                 },
                 child: _buildExpandableText(
-                  "Orientacion del dispositivo",
+                  "Orientación del dispositivo",
                   _expanded1,
-                  "El panel solar debera estar orientado hacia el sur para aprovechar de mejor manera la carga solar.",
+                  "El panel solar deberá estar orientado hacia el sur, para aprovechar de mejor manera la carga solar.",
                 ),
               ),
               InkWell(
@@ -108,7 +108,7 @@ class _InformationState extends State<Information> {
                 child: _buildExpandableText(
                   "Cambio de dispositivo",
                   _expanded2,
-                  "Si desea cambiar el dispositivo seleccionado dirijase a perfil y precione la opcion cambiar dispositivo despues de eso bastara con seleccionar el dispositivo que necesite.",
+                  "Si desea cambiar el dispositivo seleccionado diríjase al perfil y presione la opción cambiar dispositivo, después de eso bastará con seleccionar el dispositivo que se necesite.",
                 ),
               ),
               InkWell(
@@ -121,7 +121,7 @@ class _InformationState extends State<Information> {
                 child: _buildExpandableText(
                   "Cambio de contraseña",
                   _expanded3,
-                  'Si deseas cambiar de contraseña solo deberas ingresar a la seccion de perfil precionar sobre la opcion de cambiar contraseña y se enviara un correo electronico a tu cuenta solo deberas completar el formulario.',
+                  'Si deseas cambiar de contraseña, solo deberás ingresar a la sección de perfil y presionar sobre la opción de cambiar contraseña, posterioirmente se enviará un correo electrónico a tu cuenta, finalmente deberás completar el formulario.',
                 ),
               ),
               InkWell(

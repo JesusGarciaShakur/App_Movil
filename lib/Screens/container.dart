@@ -349,6 +349,7 @@ class _ContainerDetailsState extends State<ContainerDetails> {
                             if (linearValue > linearValue2) {
                               linearValue2 = linearValue;
                               Fluttertoast.cancel();
+
                               showToast(
                                   message:
                                       "No se puede estar debajo del porcentaje de encendido");
@@ -458,7 +459,9 @@ class _ContainerDetailsState extends State<ContainerDetails> {
   void apagarRele() async {
     if (porcent > (linearValue2 * 100)) {
       relay.update({"relay": 0});
-    } else {
+    } else if (porcent < (linearValue * 100)) {
+      Fluttertoast.cancel();
+
       showToast(message: "No se puede apagar por el limite establecido");
     }
   }
