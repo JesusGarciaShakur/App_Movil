@@ -115,8 +115,15 @@ class _ContainerDetailsState extends State<ContainerDetails> {
   void _initializeDatabaseReferences() {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
+      try{
+
+
+
+
+
       userId = currentUser.uid;
-      relay = FirebaseDatabase.instance.ref().child("usuarios/$userId/datos/");
+      relay =
+       FirebaseDatabase.instance.ref().child("usuarios/$userId/datos/");
       relay2 =
           FirebaseDatabase.instance.ref().child("usuarios/$userId/datos/relay");
       typeContainer = FirebaseDatabase.instance
@@ -125,11 +132,15 @@ class _ContainerDetailsState extends State<ContainerDetails> {
       medida = FirebaseDatabase.instance
           .ref()
           .child("usuarios/$userId/datos/contenedor/altura");
+      } catch(e){
+        print(e);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+
     double convertir([String valor = '0.1']) {
       try {
         double convertidor = double.parse(valor);
@@ -140,23 +151,43 @@ class _ContainerDetailsState extends State<ContainerDetails> {
       }
     }
 
+try{
+
     typeContainer.onValue.listen((event) {
       setState(() {
         altu = event.snapshot.value.toString().trim();
       });
     });
+} catch(e){
+  print("$e error del try de altura");
+   altu='0.1';
+}
+
+try{
 
     relay2.onValue.listen((event) {
       setState(() {
         getOnceValue = event.snapshot.value.toString();
       });
     });
+}catch(e){
+    print("$e error del try de relay2");
 
+getOnceValue="0.1";
+}
+
+try{
+  
     medida.onValue.listen((event) {
       setState(() {
         getTamanoConten = event.snapshot.value.toString();
       });
     });
+}catch(e){
+    print("$e error del try de medida");
+
+  getTamanoConten="0.1";
+}
 
     distaan = convertir(altu);
 
@@ -495,8 +526,8 @@ class _ContainerDetailsState extends State<ContainerDetails> {
             MaterialButton(
               onPressed:
                   prenderRele, // Llamar a la función para encender la bomba
-              highlightColor: AppTheme.bottomColorBlue,
-              splashColor: const Color.fromARGB(255, 33, 243, 226),
+              highlightColor: Color.fromARGB(255, 33, 180, 243),
+              splashColor: Color.fromARGB(255, 33, 180, 243),
               color:AppTheme.bottomColorBlue,
               shape: const StadiumBorder(),
               child: const Text(
@@ -506,7 +537,7 @@ class _ContainerDetailsState extends State<ContainerDetails> {
             ),
             MaterialButton(
               onPressed: apagarRele, // Llamar a la función para apagar la bomba
-              highlightColor: AppTheme.bottomColorBlue,
+              highlightColor: const Color.fromARGB(255, 243, 159, 33),
               splashColor: const Color.fromARGB(255, 243, 159, 33),
               color: AppTheme.bottomColorBlue,
               shape: const StadiumBorder(),

@@ -121,17 +121,8 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 500),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: 50,
-                  child: Material(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(25),
-                    
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(25),
-                      onTap: () async {
+                MaterialButton(
+                  onPressed: () async {
                         await FirebaseAuth.instance.signOut();
                         Navigator.pushAndRemoveUntil(
                           context,
@@ -140,43 +131,47 @@ class _ProfileState extends State<Profile> {
                           (Route<dynamic> route) => false,
                         );
                       },
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          color: Colors.indigoAccent,
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "Cerrar sesión",
-                            style: TextStyle(fontSize: 18, color: Colors.white),
+                      minWidth:MediaQuery.of(context).size.width * 0.8 ,
+                      height: 50,
+                      highlightColor: Color.fromARGB(255, 65, 17, 255)  ,
+                      splashColor:Color.fromARGB(255, 65, 17, 255) ,
+                      color:Colors.indigoAccent ,
+                      shape: const StadiumBorder(),
+                      child: const Text("Cerrar sesión",style: TextStyle(
+                          color: AppTheme.iconColor,
+                          fontSize: 18
                           ),
+                        
                         ),
-                      ),
-                    ),
                   ),
-                ),
+
                 const SizedBox(height: 20),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 500),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () {
+                
+                MaterialButton(
+                  onPressed:() {
                       final ruta1 = MaterialPageRoute(builder: (context) {
                         return const SignIn();
                       });
                       Navigator.push(context, ruta1);
                     },
-                    child: const Text(
-                      'Cambiar de contenedor',
-                      style: TextStyle(fontSize: 18),
-                    ),
+                      minWidth:MediaQuery.of(context).size.width * 0.8 ,
+                      height: 50,
+                      highlightColor: Color.fromARGB(255, 215, 234, 249)  ,
+                      splashColor:Color.fromARGB(255, 215, 234, 249) ,
+                      color:Color.fromARGB(255, 249, 249, 249) ,
+                      shape: const StadiumBorder(),
+                      child: Text("Cambiar de contenedor",style: TextStyle(
+                          color: Color.fromARGB(255, 114, 37, 182),
+                          fontSize: 18
+                          ),
+                        
+                        ),
                   ),
-                ),
+
+
+           
+                const SizedBox(height: 20),
+                
               ],
             ),
           ),

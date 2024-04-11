@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smca_application/Screens/container.dart';
 import 'package:smca_application/global/common/toast.dart';
+import 'package:smca_application/sign_in_screen.dart';
 import 'package:smca_application/theme/app_theme.dart';
 import 'package:smca_application/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 
@@ -240,62 +243,62 @@ class _LoginPageState extends State<LoginPage> {
         print('Credenciales eliminadas');
       }
 print("entra aca el logica");
-      // final uid = FirebaseAuth.instance.currentUser!.uid;
+      final uid = FirebaseAuth.instance.currentUser!.uid;
 
-      // final ref =
-      //     FirebaseDatabase.instance.ref("usuarios/$uid/datos/contenedor/");
-      // final snapshot = await ref.child('altura').get();
+      final ref =
+          FirebaseDatabase.instance.ref("usuarios/$uid/datos/contenedor/");
+      final snapshot = await ref.child('altura').get();
 
 
-      // if (snapshot.exists) {
-      //   final altu = snapshot.value.toString();
-      //   altura = convertir(altu);
-      // } else {
-      //   print('no encontro altura.');
-      // }
+      if (snapshot.exists) {
+        final altu = snapshot.value.toString();
+        altura = convertir(altu);
+      } else {
+        print('no encontro altura.');
+      }
 
-      // final snapshot2 = await ref.child('cantidad').get();
-      // if (snapshot2.exists) {
-      //   final tama = snapshot2.value.toString();
-      //   tamanio = convertir(tama);
-      // } else {
-      //   print('no encontro tamaño.');
-      // }
+      final snapshot2 = await ref.child('cantidad').get();
+      if (snapshot2.exists) {
+        final tama = snapshot2.value.toString();
+        tamanio = convertir(tama);
+      } else {
+        print('no encontro tamaño.');
+      }
 
-      // final snapshot3 = await ref.child('ids').get();
-      // if (snapshot3.exists) {
-      //   final id = snapshot3.value.toString();
-      //   ids = convertirInt(id);
-      // } else {
-      //   print('No encontro id.');
-      // }
+      final snapshot3 = await ref.child('ids').get();
+      if (snapshot3.exists) {
+        final id = snapshot3.value.toString();
+        ids = convertirInt(id);
+      } else {
+        print('No encontro id.');
+      }
 
-     //  validateContent();
+      validateContent();
     }
   }
 
-  // void validateContent() async {
-  //   String snapGuar = '';
-  //   final uid = FirebaseAuth.instance.currentUser!.uid;
-  //   final ref = FirebaseDatabase.instance.ref();
-  //   final snapshot = await ref.child('usuarios/$uid/datos/contenedor/id').get();
-  //   snapGuar = snapshot.value.toString();
-  //   print("$snapGuar valor de id en funcio");
-  //   if (snapGuar != '0') {
-  //     final route1 = MaterialPageRoute(
-  //         builder: (context) => ContainerDetails(
-  //               imagePath: "",
-  //               title1: '',
-  //               title2: altura,
-  //               height: tamanio,
-  //               id: ids,
-  //             ));
-  //     Navigator.push(context, route1);
-  //   } else {
-  //     final route = MaterialPageRoute(builder: (context) => const SignIn());
-  //     Navigator.push(context, route);
-  //   }
-  // }
+  void validateContent() async {
+    String snapGuar = '';
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final ref = FirebaseDatabase.instance.ref();
+    final snapshot = await ref.child('usuarios/$uid/datos/contenedor/id').get();
+    snapGuar = snapshot.value.toString();
+    print("$snapGuar valor de id en funcio");
+    if (snapGuar != '0') {
+      final route1 = MaterialPageRoute(
+          builder: (context) => ContainerDetails(
+                imagePath: "",
+                title1: '',
+                title2: altura,
+                height: tamanio,
+                id: ids,
+              ));
+      Navigator.push(context, route1);
+    } else {
+      final route = MaterialPageRoute(builder: (context) => const SignIn());
+      Navigator.push(context, route);
+    }
+  }
 
   double convertir([String valor = '0']) {
     try {
