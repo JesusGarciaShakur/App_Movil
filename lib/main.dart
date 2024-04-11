@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smca_application/Screens/container.dart';
 import 'package:smca_application/Screens/home_screen.dart';
+import 'package:smca_application/sign_in_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -13,11 +14,11 @@ void main() async {
   runApp(const MainApp());
 }
 
-double altura = 0;
-double tamanio = 0;
+double altura = 0.1;
+double tamanio = 0.1;
 int ids = 0;
 
-double convertir([String valor = '0']) {
+double convertir([String valor = '0.1']) {
   try {
     double convertidor = double.parse(valor);
     print("$convertidor en su proceso de com");
@@ -28,7 +29,7 @@ double convertir([String valor = '0']) {
   }
 }
 
-int convertirInt([String valor = '0']) {
+int convertirInt([String valor = '0.1']) {
   try {
     int convertidor = int.parse(valor);
     print("$convertidor en su proceso de com");
@@ -61,8 +62,9 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     void validateContent() async {
       final uid = FirebaseAuth.instance.currentUser!.uid;
-      final ref =
-          FirebaseDatabase.instance.ref("usuarios/$uid/datos/contenedor/");
+
+
+      final ref =FirebaseDatabase.instance.ref("usuarios/$uid/datos/contenedor/");
       final snapshot = await ref.child('altura').get();
       if (snapshot.exists) {
         final altu = snapshot.value.toString();
@@ -86,6 +88,12 @@ class AuthenticationWrapper extends StatelessWidget {
         print('No encontro id.');
       }
 
+
+      final PassNewUser =FirebaseDatabase.instance.ref("usuarios/$uid/datos/");
+      final snapshotUltra= await PassNewUser.child('ultrasonico').get();
+      if(snapshotUltra.exists || ids!=0){ 
+
+
       final route1 = MaterialPageRoute(
           builder: (context) => ContainerDetails(
                 imagePath: "",
@@ -95,6 +103,13 @@ class AuthenticationWrapper extends StatelessWidget {
                 id: ids,
               ));
       Navigator.push(context, route1);
+
+
+      }else {
+        final routeContainer =MaterialPageRoute(builder: (context)=> SignIn());
+        Navigator.push(context, routeContainer);
+      }
+      
     }
 
     return StreamBuilder(
@@ -106,13 +121,15 @@ class AuthenticationWrapper extends StatelessWidget {
         } else {
           if (snapshot.hasData) {
             validateContent();
+
             // Si hay una sesión iniciada, redirigimos a notificaciones por el momento
             return ContainerDetails(
-                imagePath: '',
-                title1: 'title1',
-                title2: altura,
-                height: tamanio,
-                id: ids);
+              imagePath: '',
+              title1: '',
+              title2: altura,
+              height: tamanio,
+              id: ids,
+            );
           } else {
             // Si no hay una sesión iniciada, redirigimos a la página de inicio de sesión.
             return const HomePage();

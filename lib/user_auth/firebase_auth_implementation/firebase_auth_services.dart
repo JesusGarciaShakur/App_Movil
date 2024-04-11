@@ -4,7 +4,7 @@ import 'package:smca_application/global/common/toast.dart';
 
 class FirebaseAuthService {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  DatabaseReference _userRef = FirebaseDatabase.instance.reference().child(
+  DatabaseReference _userRef = FirebaseDatabase.instance.ref().child(
       'usuarios'); // Referencia a la colección 'usuarios' en la base de datos
 
   Future<User?> signUpWithEmailAndPassword(
@@ -40,9 +40,9 @@ class FirebaseAuthService {
       return credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {
-        showToast(message: "Correo invalido o contraseña");
+        showToast(message: "Correo inválido o contraseña");
       } else {
-        showToast(message: "a ocurrido un error : ${e.code}");
+        showToast(message: "Ha ocurrido un error : ${e.code}");
       }
     }
     return null;

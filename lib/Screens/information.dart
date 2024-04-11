@@ -82,7 +82,7 @@ class _InformationState extends State<Information> {
                 child: _buildExpandableText(
                   "Porcentajes",
                   _expanded,
-                  "Se recomienda mantener el procentaje del dispostivo entre el 20% y el 85% para evitar desbordamientos y que el dispoditivo sufra daños.",
+                  "Se recomienda mantener el procentaje del dispostivo entre el 20% y el 85% para evitar desbordamientos y que el dispositivo sufra daños.",
                 ),
               ),
               InkWell(
@@ -108,7 +108,7 @@ class _InformationState extends State<Information> {
                 child: _buildExpandableText(
                   "Cambio de dispositivo",
                   _expanded2,
-                  "Si desea cambiar el dispositivo seleccionado diríjase al perfil y presione la opción cambiar dispositivo, después de eso bastará con seleccionar el dispositivo que se necesite.",
+                  "Sí desea cambiar el dispositivo seleccionado diríjase al perfil y presione la opción cambiar dispositivo, después de eso bastará con seleccionar el dispositivo que se necesite.",
                 ),
               ),
               InkWell(
@@ -121,7 +121,7 @@ class _InformationState extends State<Information> {
                 child: _buildExpandableText(
                   "Cambio de contraseña",
                   _expanded3,
-                  'Si deseas cambiar de contraseña, solo deberás ingresar a la sección de perfil y presionar sobre la opción de cambiar contraseña, posterioirmente se enviará un correo electrónico a tu cuenta, finalmente deberás completar el formulario.',
+                  'Sí deseas cambiar de contraseña, solo deberás ingresar a la sección de perfil y presionar sobre la opción de cambiar contraseña, posterioirmente se enviará un correo electrónico a tu cuenta, finalmente deberás completar el formulario.',
                 ),
               ),
               InkWell(
@@ -142,7 +142,7 @@ class _InformationState extends State<Information> {
                   });
                 },
                 child: _buildExpandableText("Reportar problemas", _expanded5,
-                    'Si notas algún problema con el funcionamiento del dispositivo, como lecturas inexactas del nivel de agua o fallos en la bomba, reporta el problema al fabricante o al proveedor de servicios lo antes posible por medio de la pagina web para que puedan brindarte asistencia técnica'),
+                    'Sí notas algún problema con el funcionamiento del dispositivo, como lecturas inexactas del nivel de agua o fallos en la bomba, reporta el problema al fabricante o al proveedor de servicios lo antes posible por medio de la página web para que puedan brindarte asistencia técnica'),
               ),
               InkWell(
                 onTap: () {
@@ -154,7 +154,7 @@ class _InformationState extends State<Information> {
                 child: _buildExpandableText(
                     "Consulta con el fabricante",
                     _expanded6,
-                    'Si tienes dudas sobre el mantenimiento o el uso adecuado del dispositivo, no dudes en ponerte en contacto con el fabricante para obtener orientación y asistencia adicional.'),
+                    'Sí tienes dudas sobre el mantenimiento o el uso adecuado del dispositivo, no dudes en ponerte en contacto con el fabricante para obtener orientación y asistencia adicional.'),
               ),
               // Aquí puedes agregar más textos expandibles si es necesario
             ],
@@ -179,7 +179,7 @@ class _InformationState extends State<Information> {
                 Icons.article_outlined,
                 color: AppTheme.textColor,
               ),
-              label: 'Informacion',
+              label: 'Información',
             ),
             BottomNavigationBarItem(
               backgroundColor: AppTheme.textColor,

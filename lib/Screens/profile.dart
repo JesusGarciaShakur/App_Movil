@@ -128,6 +128,7 @@ class _ProfileState extends State<Profile> {
                   child: Material(
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(25),
+                    
                     child: InkWell(
                       borderRadius: BorderRadius.circular(25),
                       onTap: () async {

@@ -6,6 +6,7 @@ class AppTheme {
   static const color = Color.fromARGB(199, 152, 179, 238);
   static const bottomColor =  Color.fromARGB(54, 73, 72, 72);
   static const containerColor = Color.fromARGB(134, 29, 28, 28);
+  static const bottomColorBlue= Colors.blue;
   static const foundColor = BoxDecoration(
           gradient: LinearGradient(
         begin: Alignment.topRight,

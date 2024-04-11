@@ -100,7 +100,7 @@ class SignInState extends State<SignIn> {
         children: [
           const Center(
             child: Text(
-              'Contenedores',
+              'Selecciona tu contenedor',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24.0,

@@ -1,15 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smca_application/Screens/container.dart';
 import 'package:smca_application/global/common/toast.dart';
-import 'package:smca_application/sign_in_screen.dart';
 import 'package:smca_application/theme/app_theme.dart';
 import 'package:smca_application/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 
 class LoginPage extends StatefulWidget {
-  static const String routename = 'Login';
   const LoginPage({Key? key}) : super(key: key);
 
   @override
@@ -177,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _passText() {
     return GestureDetector(
       onTap: _resetPassword,
-      child: Text(
+      child: const Text(
         "¿Has olvidado la contraseña?",
         textAlign: TextAlign.center,
         style: TextStyle(
@@ -193,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (email.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
             content: Text(
                 'Por favor ingresa tu correo electrónico para restablecer la contraseña.')),
       );
@@ -225,11 +221,13 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
     User? user = await _auth.signInWithEmailAndPassword(email, password);
-    await cargarPreferencias(); // Cargar preferencias antes de usarlas
+   // await cargarPreferencias(); // Cargar preferencias antes de usarlas
     if (user != null) {
-      showToast(message: "el usuario ha ingresado");
+      showToast(message: "El usuario ha ingresado");
 
       // Verificar si el usuario ha seleccionado guardar sus credenciales
+
+
       if (checkGuardarDatos == true) {
         // Guardar las credenciales solo si el checkbox está marcado
         _prefs!.setString('email', email);
@@ -241,61 +239,63 @@ class _LoginPageState extends State<LoginPage> {
         _prefs!.remove('password');
         print('Credenciales eliminadas');
       }
+print("entra aca el logica");
+      // final uid = FirebaseAuth.instance.currentUser!.uid;
 
-      final uid = FirebaseAuth.instance.currentUser!.uid;
+      // final ref =
+      //     FirebaseDatabase.instance.ref("usuarios/$uid/datos/contenedor/");
+      // final snapshot = await ref.child('altura').get();
 
-      final ref =
-          FirebaseDatabase.instance.ref("usuarios/$uid/datos/contenedor/");
-      final snapshot = await ref.child('altura').get();
-      if (snapshot.exists) {
-        final altu = snapshot.value.toString();
-        altura = convertir(altu);
-      } else {
-        print('no encontro altura.');
-      }
 
-      final snapshot2 = await ref.child('cantidad').get();
-      if (snapshot2.exists) {
-        final tama = snapshot2.value.toString();
-        tamanio = convertir(tama);
-      } else {
-        print('no encontro tamaño.');
-      }
+      // if (snapshot.exists) {
+      //   final altu = snapshot.value.toString();
+      //   altura = convertir(altu);
+      // } else {
+      //   print('no encontro altura.');
+      // }
 
-      final snapshot3 = await ref.child('ids').get();
-      if (snapshot3.exists) {
-        final id = snapshot3.value.toString();
-        ids = convertirInt(id);
-      } else {
-        print('No encontro id.');
-      }
+      // final snapshot2 = await ref.child('cantidad').get();
+      // if (snapshot2.exists) {
+      //   final tama = snapshot2.value.toString();
+      //   tamanio = convertir(tama);
+      // } else {
+      //   print('no encontro tamaño.');
+      // }
 
-      validateContent();
+      // final snapshot3 = await ref.child('ids').get();
+      // if (snapshot3.exists) {
+      //   final id = snapshot3.value.toString();
+      //   ids = convertirInt(id);
+      // } else {
+      //   print('No encontro id.');
+      // }
+
+     //  validateContent();
     }
   }
 
-  void validateContent() async {
-    String snapGuar = '';
-    final uid = FirebaseAuth.instance.currentUser!.uid;
-    final ref = FirebaseDatabase.instance.ref();
-    final snapshot = await ref.child('usuarios/$uid/datos/contenedor/id').get();
-    snapGuar = snapshot.value.toString();
-    print("$snapGuar valor de id en funcio");
-    if (snapGuar != '0') {
-      final route1 = MaterialPageRoute(
-          builder: (context) => ContainerDetails(
-                imagePath: "",
-                title1: '',
-                title2: altura,
-                height: tamanio,
-                id: ids,
-              ));
-      Navigator.push(context, route1);
-    } else {
-      final route = MaterialPageRoute(builder: (context) => const SignIn());
-      Navigator.push(context, route);
-    }
-  }
+  // void validateContent() async {
+  //   String snapGuar = '';
+  //   final uid = FirebaseAuth.instance.currentUser!.uid;
+  //   final ref = FirebaseDatabase.instance.ref();
+  //   final snapshot = await ref.child('usuarios/$uid/datos/contenedor/id').get();
+  //   snapGuar = snapshot.value.toString();
+  //   print("$snapGuar valor de id en funcio");
+  //   if (snapGuar != '0') {
+  //     final route1 = MaterialPageRoute(
+  //         builder: (context) => ContainerDetails(
+  //               imagePath: "",
+  //               title1: '',
+  //               title2: altura,
+  //               height: tamanio,
+  //               id: ids,
+  //             ));
+  //     Navigator.push(context, route1);
+  //   } else {
+  //     final route = MaterialPageRoute(builder: (context) => const SignIn());
+  //     Navigator.push(context, route);
+  //   }
+  // }
 
   double convertir([String valor = '0']) {
     try {

@@ -213,7 +213,7 @@ class _ContainerDetailsState extends State<ContainerDetails> {
         relay.update({'relay': 0});
       }
 
-      if (porcent < (linearValue * 100)) {
+      if (porcent < (linearValue*100)) {
         relay.update({'relay': 1});
       }
     }
@@ -235,7 +235,6 @@ class _ContainerDetailsState extends State<ContainerDetails> {
                 child: Column(
               children: [
                 const SizedBox(
-                  width: 10,
                   height: 20,
                 ),
 
@@ -314,8 +313,8 @@ class _ContainerDetailsState extends State<ContainerDetails> {
                           lineHeight: 30,
                           percent: linearValue,
                           barRadius: const Radius.circular(100),
-                          backgroundColor: Colors.blue.shade100,
-                          progressColor: Colors.blue,
+                          backgroundColor: AppTheme.bottomColorBlue.shade100,
+                          progressColor: AppTheme.bottomColorBlue,
                         ),
                       ),
                       const Text("100%")
@@ -370,8 +369,8 @@ class _ContainerDetailsState extends State<ContainerDetails> {
                           lineHeight: 30,
                           percent: linearValue2,
                           barRadius: const Radius.circular(100),
-                          backgroundColor: Colors.blue.shade100,
-                          progressColor: Colors.blue,
+                          backgroundColor: AppTheme.bottomColorBlue.shade100,
+                          progressColor: AppTheme.bottomColorBlue,
                         ),
                       ),
                       const Text("100%")
@@ -399,6 +398,7 @@ class _ContainerDetailsState extends State<ContainerDetails> {
                 color: AppTheme.textColor,
               ),
               label: 'Inicio',
+              
             ),
             BottomNavigationBarItem(
               backgroundColor: AppTheme.textColor,
@@ -406,7 +406,9 @@ class _ContainerDetailsState extends State<ContainerDetails> {
                 Icons.article_outlined,
                 color: AppTheme.textColor,
               ),
-              label: 'Informacion',
+              label:'Información',
+              
+              
             ),
             BottomNavigationBarItem(
               backgroundColor: AppTheme.textColor,
@@ -457,20 +459,19 @@ class _ContainerDetailsState extends State<ContainerDetails> {
   }
 
   void apagarRele() async {
-    if (porcent > (linearValue2 * 100)) {
+   if(porcent>(linearValue*100)){
       relay.update({"relay": 0});
-    } else if (porcent < (linearValue * 100)) {
-      Fluttertoast.cancel();
+   }else {
+    showToast(message: "no se puede apagar por el límite establecido");
+   }
 
-      showToast(message: "No se puede apagar por el limite establecido");
-    }
   }
 
   void prenderRele() async {
     if (porcent < (linearValue2 * 100)) {
       relay.update({"relay": 1});
     } else if (porcent > (linearValue2 * 100)) {
-      showToast(message: "se ha alcanzado limite de llenado ");
+      showToast(message: "se ha alcanzado lpimite de llenado ");
     }
   }
 
@@ -494,9 +495,9 @@ class _ContainerDetailsState extends State<ContainerDetails> {
             MaterialButton(
               onPressed:
                   prenderRele, // Llamar a la función para encender la bomba
-              highlightColor: Colors.blue,
+              highlightColor: AppTheme.bottomColorBlue,
               splashColor: const Color.fromARGB(255, 33, 243, 226),
-              color: Colors.blue,
+              color:AppTheme.bottomColorBlue,
               shape: const StadiumBorder(),
               child: const Text(
                 'Encender',
@@ -505,9 +506,9 @@ class _ContainerDetailsState extends State<ContainerDetails> {
             ),
             MaterialButton(
               onPressed: apagarRele, // Llamar a la función para apagar la bomba
-              highlightColor: Colors.blue,
+              highlightColor: AppTheme.bottomColorBlue,
               splashColor: const Color.fromARGB(255, 243, 159, 33),
-              color: Colors.blue,
+              color: AppTheme.bottomColorBlue,
               shape: const StadiumBorder(),
               child: const Text(
                 'Apagar',
